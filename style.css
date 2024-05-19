@@ -182,6 +182,20 @@ button:hover {
   accent-color: var(--accent-color);
 }
 
+.option.selected {
+  background-color: #646cffaa;
+}
+
+.option.correct {
+  background-color: #61dafbaa;
+  color: #01171daa;
+}
+
+.option.incorrect {
+  background-color: #ff6161aa;
+  color: rgb(58, 0, 13);
+}
+
 input:has(:checked)::before {
   pointer-events: none;
   position: absolute;

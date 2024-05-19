@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
+import classnames from 'classnames';
 
 interface Question {
   id: number;
@@ -55,17 +56,15 @@ const QuestionComponent: React.FC = () => {
       setScore(score + 1);
       setCorrectAnswersHistory([...correctAnswersHistory, option]); // Adiciona a resposta correta ao histórico
       // Toca um som de resposta correta
-      console.log('Tocando som de resposta correta');
       try {
         new Audio('assets/sounds/correct-answer-sound.mp3').play();
       } catch (error) {
         console.error('Erro ao carregar áudio:', error);
       }
     } else {
-      console.log('Tocando som de resposta errada');
       try {
         // Toca um som de resposta errada
-        new Audio('assets/sounds/wrong-answer-sound.mp3').play();
+        new Audio('assets/sounds/wrong-answer-sound2.mp3').play();
       } catch (error) {
         console.error('Erro ao carregar áudio:', error);
       }
@@ -75,6 +74,13 @@ const QuestionComponent: React.FC = () => {
 
   };
 
+  const handleBackQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setSelectedOption(null);
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setStartTime(undefined); // Reinicia o tempo de início para a pergunta anterior
+    }
+  }
   const handleNextQuestion = () => {
     // Calcula o tempo que o usuário levou para responder
     const endTime = new Date();
@@ -113,24 +119,37 @@ const QuestionComponent: React.FC = () => {
         <div id="questionText">
           <div key={currentQuestionIndex}>
             <h2 >{questions[currentQuestionIndex]?.questionText}</h2>
-            {questions[currentQuestionIndex]?.options?.map((option) => (
-              <div id="options" key={option}>
-                <input
-                  id={option}
-                  type="checkbox"
+            {questions[currentQuestionIndex]?.options?.map((option) => {
+              const isSelected = selectedOption === option;
+              const isCorrect = questions[currentQuestionIndex].correctAnswer === option;
+              const optionClass = classnames({
+                'option': true,
+                'selected': isSelected,
+                'correct': isSelected && isCorrect,
+                'incorrect': isSelected && !isCorrect,
+              });
 
-                  onClick={(e) => handleAnswerOptionClick(option, e.currentTarget)}
-                  disabled={!!selectedOption}
-                  value={option.replace(' **', '')}
-                />
-                <span className="image-choice">{option.replace(' **', '')}</span>
-                <input type="hidden" id="correctAnswer" value={questions[currentQuestionIndex].correctAnswer} />
-             </div>
-            ))}
+              return (
+                <div id="options" key={option} className={optionClass}>
+                  <input
+                    id={option}
+                    type="checkbox"
+                    onClick={(e) => handleAnswerOptionClick(option, e.currentTarget)}
+                    disabled={!!selectedOption}
+                    value={option.replace(' **', '')}
+                  />
+                  <span className="image-choice">{option.replace(' **', '')}</span>
+                  <input type="hidden" id="correctAnswer" value={questions[currentQuestionIndex].correctAnswer} />
+                </div>
+              );
+            })}
           </div>
           <div> &nbsp; </div>
           {selectedOption && (
             <div>
+              {currentQuestionIndex > 0 &&
+                <button id="back" onClick={handleBackQuestion}>Voltar</button>
+              }
               <button id="next" onClick={handleNextQuestion}>Próx. Questão</button>
             </div>
           )}

@@ -72,39 +72,7 @@ form.onsubmit = async (ev) => {
   try {
     callPredict();
 
-    // let contents = [
-    //   {
-    //     role: 'user',
-    //     parts: [
-    //       // { inline_data: { mime_type: 'image/jpeg', data: imageBase64, } },
-    //       { text: promptInput.value + ' ' + inlineData.innerHTML }
-    //     ]
-    //   }
-    // ];
 
-    // // Call the gemini-pro-vision model, and get a stream of results
-    // const genAI = new GoogleGenerativeAI(API_KEY);
-    // const model = genAI.getGenerativeModel({
-    //   model: "text-bison", // "gemini-1.5-flash-latest", //"gemini-pro-vision",
-    //   safetySettings: [
-    //     {
-    //       category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-    //       threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-    //     },
-    //   ],
-    // });
-
-
-    // const result = await model.generateContent({ contents });
-
-    // Read from the stream and interpret the output as markdown
-    // let buffer = [];
-    // // let md = new MarkdownIt();
-    // for await (let response of result.stream) {
-    //   buffer.push(response.text());
-    //   // output.innerHTML = md.render(buffer.join(''));
-    //   output.textContent = buffer.join('');
-    // }
   } catch (e) {
     output.innerHTML += '<hr>' + e;
   }
