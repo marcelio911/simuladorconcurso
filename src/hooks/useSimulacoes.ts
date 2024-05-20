@@ -1,27 +1,42 @@
-import { useState, useEffect } from 'react';
-import { getSimulacoes } from '../services/simulacoes';
+import { useState } from 'react';
+import { createSimulacoes, fetchSimulacoesByConcursoId } from '../services/simulacoes';
+import { SimulacaoDto } from '../../backend/microservicos/src/types/dtos/Simulacao.dto';
+import { useParams } from 'react-router-dom';
 
 const useSimulacoes = () => {
   const [simulacoes, setSimulacoes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { userId } = useParams();
 
-  useEffect(() => {
-    const loadSimulacoes = async () => {
-      try {
-        const data = await getSimulacoes();
-        setSimulacoes(data);
-      } catch (err) {
-        setError('Failed to fetch simulacoes');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const insertSimulacao = async ({ userId, concursoId }) => {
+    try {
+      const simulacaoDto: SimulacaoDto = {
+        userId,
+        concursoId,
+      };
+      await createSimulacoes(simulacaoDto);
+    } catch (err) {
+      setError('Failed to insert simulacao');
+    } finally {
+      setLoading(false);
+    }
+  }
 
-    loadSimulacoes();
-  }, []);
+  const loadSimulacoesByConcursoId = async (concursoId?: string) => {
+    try {
+      const data = await fetchSimulacoesByConcursoId(concursoId, userId);
+      setSimulacoes(data);
+    } catch (err) {
+      setError('Failed to fetch simulacoes');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  return { simulacoes, loading, error };
+
+
+  return { loadSimulacoesByConcursoId, insertSimulacao, userId, simulacoes, loading, error };
 };
 
 export default useSimulacoes;

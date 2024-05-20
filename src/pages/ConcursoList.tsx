@@ -6,7 +6,7 @@ import ConcursoForm from '../components/ConcursoForm';
 import { useNavigate } from 'react-router-dom';
 
 const ConcursoList: React.FC = () => {
-  const { concursos, loading, error, handleSelected } = useConcursos();
+  const { concursos, loading, error, userId, handleSelected } = useConcursos();
   const [showForm, setShowForm] = useState(false);
   const [selectedConcurso, setSelectedConcurso] = useState<any | null>(null);
 
@@ -41,7 +41,7 @@ const ConcursoList: React.FC = () => {
   const navigation = (concurso) => {
     console.log(selectedConcurso);
     setSelectedConcurso(concurso);
-    // navigate('/simulacoes');
+    navigate(`/simulacoes/${concurso._id}/${userId}`);
   }
 
 
@@ -63,6 +63,7 @@ const ConcursoList: React.FC = () => {
         {concursos.map((concurso) => (
           <Col key={concurso.id} span={8}>
             <ConcursoCard
+              key={concurso.id}
               concurso={concurso}
               onEdit={() => handleEdit(concurso)}
               onView={() => handleView(concurso)}

@@ -13,9 +13,9 @@ const App: React.FC = () => {
     <div>
       <Router>
         <Routes>
-          <Route path="/simulacoes" Component={SimulacoesList} />
+          <Route path="/simulacoes/:concursoId/:userId" element={<SimulacoesList />} />
           <Route path="/gabarito" Component={GabaritoComponent} />
-          <Route path="/questoes" Component={QuestionComponent} />
+          <Route path="/questoes/:simulacaoId" Component={QuestionComponent} />
           <Route path="/admin" element={<ContestList />} />
           <Route path="/login" Component={Login} />
           <Route path="/" element={<ConcursoList />} />

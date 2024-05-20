@@ -9,6 +9,9 @@ const useConcursos = () => {
   const [error, setError] = useState<string | null>(null);
 
 
+  // TODO: Get userId from context auth
+  const userId = '6649ad6e3204147e329206bf';
+
   const handleSave = async (callback: () => void) => {
 
     await getConcursos();
@@ -18,7 +21,7 @@ const useConcursos = () => {
   const handleSimulacoes = async (idConcurso: string) => {
     try {
       startLoading()
-      const data = await fetchSimulacoesByConcursoId(idConcurso, '6649ad6e3204147e329206bf');
+      const data = await fetchSimulacoesByConcursoId(idConcurso, userId);
       setSimulacoes(data);
     } catch (err) {
       setError('Failed to fetch simulacoes');
@@ -83,6 +86,7 @@ const useConcursos = () => {
     simulacoes,
     loading,
     error,
+    userId,
     handleEdit,
     handleCancel,
     handleDelete,

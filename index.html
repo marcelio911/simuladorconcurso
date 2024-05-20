@@ -8,19 +8,20 @@
 </head>
 
 <body>
+
   <main>
-
-    <div id="root"></div>
-
     <form>
       <div class="prompt-box">
         <label>
           <input name="prompt" placeholder="Enter instructions here" type="hidden"
             value="Explique sobre essa questão, considere a resposta correta está no input id='correctAnswer' ">
         </label>
-        <button type="submit">Ver explicações</button>
+        <button type="submit" id="help">?</button>
       </div>
     </form>
+    <div id="root"></div>
+
+
     <!-- <p class="output">(Resultados aparecerão aqui)</p> -->
   </main>
   <script type="module" src="/src/main.tsx"></script>

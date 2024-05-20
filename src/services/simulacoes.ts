@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import { API_BASE_URL } from './api';
 
-
 export const getSimulacoes = async () => {
   const response = await axios.get(`${API_BASE_URL}/simulacoes`);
   return response.data;

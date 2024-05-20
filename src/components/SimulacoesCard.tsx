@@ -1,15 +1,18 @@
 import React from 'react';
-import { Card, CardContent, Typography, Button } from '@mui/material';
+import { Card, CardContent, CardActionArea, Typography, Button } from '@mui/material';
+import { formatDateTime } from '../utils';
 
-interface ContestCardProps {
+interface SimulacoesCardProps {
   contest: any;
   onEdit: () => void;
   onView: () => void;
 }
 
-const ContestCard: React.FC<ContestCardProps> = ({ contest, onEdit, onView }) => {
+const SimulacoesCard: React.FC<SimulacoesCardProps> = ({ contest, onEdit, onView }) => {
+  const { startTime, endTime } = contest;
   return (
     <Card sx={{ minWidth: 275, margin: 2 }}>
+      {/* <CardTitle title="Simulacao" /> */}
       <CardContent>
         <Typography variant="h5" component="div">
           {contest.name}
@@ -18,13 +21,21 @@ const ContestCard: React.FC<ContestCardProps> = ({ contest, onEdit, onView }) =>
           {contest.description}
         </Typography>
         <Typography variant="body2">
-          Data: {contest.date}
+          Iniciado em: {startTime ? formatDateTime(startTime) : '-'}
         </Typography>
-        <Button size="small" onClick={onView}>View</Button>
-        <Button size="small" onClick={onEdit}>Edit</Button>
+        <Typography variant="body2">
+          Concluído: {endTime ? new Date(endTime)?.toLocaleDateString() : 'Em andamento'}
+        </Typography>
+
+
       </CardContent>
+      <CardActionArea className='prompt-box'>
+        <Button size="small" onClick={onView}>{!endTime ? 'Iniciar' : 'Revisar'}</Button>
+
+        <Button size="small" onClick={onEdit}>Editar</Button>
+      </CardActionArea>
     </Card>
   );
 };
 
-export default ContestCard;
+export default SimulacoesCard;

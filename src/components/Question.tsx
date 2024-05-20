@@ -1,42 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import api from '../services/api';
 import classnames from 'classnames';
+import ResultadosSimulado from './ResultadoSimulado';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getQuestions } from '../services/questions';
 
-interface Question {
+export interface QuestionDto {
   id: number;
   questionText: string;
   options: string[];
   correctAnswer: string;
 }
 const QuestionComponent: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState(0);
-  const [correctAnswersHistory, setCorrectAnswersHistory] = useState<string[]>([]);
+  const [correctAnswersHistory, setCorrectAnswersHistory] = useState<QuestionDto[]>([]);
   const [startTime, setStartTime] = useState<Date | undefined>();
+  const { simulacaoId } = useParams();
 
   useEffect(() => {
     cleanStates();
-    loadQuestions(); // Carregar as perguntas quando o componente montar
+    loadApi(); // Carregar as perguntas quando o componente montar
   }, []);
 
   const cleanStates = () => {
     setQuestions([]);
     setIsLoading(false);
-    setCurrentQuestionIndex(0);
+    setCurrentQuestionIndex(19);
     setSelectedOption(null);
     setScore(0);
     setCorrectAnswersHistory([]);
-    setStartTime(undefined);
+    setStartTime(new Date());
+  }
+
+  const navigation = useNavigate();
+
+  const backToHome = () => {
+    cleanStates();
+    navigation(-1);
   }
 
 
-  const loadQuestions = async () => {
+  const loadApi = async () => {
     setIsLoading(true);
     try {
-      const response = await api.get<Question[]>('/questions');
+      const response = await getQuestions({ simulacaoId });
+      console.log(`Simulação ${simulacaoId}`);
       setQuestions(response.data);
     } catch (error) {
       console.error('error::: ', error);
@@ -47,14 +58,12 @@ const QuestionComponent: React.FC = () => {
 
   const handleAnswerOptionClick = (option: string, e: HTMLInputElement) => {
     e.setAttribute('checked', 'true');
-    if (!startTime) {
-      setStartTime(new Date()); // Registra o tempo de início da resposta
-    }
+
     const correctAnswer = questions[currentQuestionIndex].correctAnswer;
     console.log('option', option, ' -- ', correctAnswer);
     if (option === correctAnswer) {
       setScore(score + 1);
-      setCorrectAnswersHistory([...correctAnswersHistory, option]); // Adiciona a resposta correta ao histórico
+      setCorrectAnswersHistory([...correctAnswersHistory, questions[currentQuestionIndex]]); // Adiciona a resposta correta ao histórico
       // Toca um som de resposta correta
       try {
         new Audio('assets/sounds/correct-answer-sound.mp3').play();
@@ -78,7 +87,6 @@ const QuestionComponent: React.FC = () => {
     if (currentQuestionIndex > 0) {
       setSelectedOption(null);
       setCurrentQuestionIndex(currentQuestionIndex - 1);
-      setStartTime(undefined); // Reinicia o tempo de início para a pergunta anterior
     }
   }
   const handleNextQuestion = () => {
@@ -91,30 +99,21 @@ const QuestionComponent: React.FC = () => {
 
     setSelectedOption(null);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
-    if (currentQuestionIndex + 1 < questions.length) {
-      setStartTime(undefined); // Reinicia o tempo de início para a próxima pergunta
-    }
+
   };
 
   return (
     <div>
       <h1>Simulador de Questões [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex}/{questions.length}] - Acertos [{score}] </h1>
-      {
-        startTime && questions.length > 0 && currentQuestionIndex >= questions.length && (
-          <center className='final-page'>
-            <h2>Parabéns! Você concluiu o simulado!</h2>
-            <h3>Seu resultado final foi:</h3>
-            <p>Acertos: {correctAnswersHistory.length}</p>
-            <p>Erros: {questions.length - score}</p>
-            <p>Tempo total: {Math.floor((new Date().getTime() - startTime.getTime()) / 1000)} segundos</p>
-            <p id="correctAnswers">Respostas corretas:
-              {
-                correctAnswersHistory.join(', ')
-              }
 
-            </p>
-          </center>
-        )}
+      <ResultadosSimulado
+        startTime={startTime}
+        questions={questions}
+        currentQuestionIndex={currentQuestionIndex}
+        correctAnswersHistory={correctAnswersHistory as any}
+        score={score}
+        handleNovoSimuladoClick={() => { backToHome() }}
+      />
       {questions.length > 0 ? (
         <div id="questionText">
           <div key={currentQuestionIndex}>
@@ -146,11 +145,15 @@ const QuestionComponent: React.FC = () => {
           </div>
           <div> &nbsp; </div>
           {selectedOption && (
-            <div>
-              {currentQuestionIndex > 0 &&
-                <button id="back" onClick={handleBackQuestion}>Voltar</button>
-              }
-              <button id="next" onClick={handleNextQuestion}>Próx. Questão</button>
+            <div className="action-box">
+              <div>
+                {currentQuestionIndex > 0 &&
+                  <button id="back" onClick={handleBackQuestion}>Voltar</button>
+                }
+              </div>
+              <div >
+                <button id="next" onClick={handleNextQuestion}>Próx. Questão</button>
+              </div>
             </div>
           )}
         </div>
@@ -158,7 +161,7 @@ const QuestionComponent: React.FC = () => {
         <>
           <p>{isLoading ? 'Loading...' : ''}</p>
           <div>
-            <button onClick={loadQuestions}>Carregar Questões</button>
+            <button onClick={loadApi}>Carregar Questões</button>
           </div>
         </>
       )}
