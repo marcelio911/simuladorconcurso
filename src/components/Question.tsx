@@ -28,7 +28,7 @@ const QuestionComponent: React.FC = () => {
   const cleanStates = () => {
     setQuestions([]);
     setIsLoading(false);
-    setCurrentQuestionIndex(19);
+    setCurrentQuestionIndex(0);
     setSelectedOption(null);
     setScore(0);
     setCorrectAnswersHistory([]);
@@ -60,23 +60,31 @@ const QuestionComponent: React.FC = () => {
     e.setAttribute('checked', 'true');
 
     const correctAnswer = questions[currentQuestionIndex].correctAnswer;
-    console.log('option', option, ' -- ', correctAnswer);
+
     if (option === correctAnswer) {
       setScore(score + 1);
       setCorrectAnswersHistory([...correctAnswersHistory, questions[currentQuestionIndex]]); // Adiciona a resposta correta ao histórico
       // Toca um som de resposta correta
-      try {
-        new Audio('assets/sounds/correct-answer-sound.mp3').play();
-      } catch (error) {
-        console.error('Erro ao carregar áudio:', error);
-      }
+      const correctAudioElement = new Audio('/assets/sounds/correct-answer-sound.mp3');
+      correctAudioElement.addEventListener('canplaythrough', () => {
+        // O áudio está pronto para ser reproduzido
+        correctAudioElement.play();
+      });
+      // Lidar com erros de carregamento
+      correctAudioElement.addEventListener('error', (event) => {
+        console.error('Erro ao carregar o áudio:', event.target.error);
+      });
     } else {
-      try {
-        // Toca um som de resposta errada
-        new Audio('assets/sounds/wrong-answer-sound2.mp3').play();
-      } catch (error) {
-        console.error('Erro ao carregar áudio:', error);
-      }
+      // Toca um som de resposta errada
+      const incorrectAudioElement = new Audio('/assets/sounds/wrong-answer-sound2.mp3');
+      incorrectAudioElement.addEventListener('canplaythrough', () => {
+        // O áudio está pronto para ser reproduzido
+        incorrectAudioElement.play();
+      });
+      // Lidar com erros de carregamento
+      incorrectAudioElement.addEventListener('error', (event) => {
+        console.error('Erro ao carregar o áudio:', event.target.error);
+      });
     }
 
     setSelectedOption(option);
@@ -104,7 +112,7 @@ const QuestionComponent: React.FC = () => {
 
   return (
     <div>
-      <h1>Simulador de Questões [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex}/{questions.length}] - Acertos [{score}] </h1>
+      <h2>Simulador de Questões [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
 
       <ResultadosSimulado
         startTime={startTime}
@@ -117,7 +125,7 @@ const QuestionComponent: React.FC = () => {
       {questions.length > 0 ? (
         <div id="questionText">
           <div key={currentQuestionIndex}>
-            <h2 >{questions[currentQuestionIndex]?.questionText}</h2>
+            <h3 >{questions[currentQuestionIndex]?.questionText}</h3>
             {questions[currentQuestionIndex]?.options?.map((option) => {
               const isSelected = selectedOption === option;
               const isCorrect = questions[currentQuestionIndex].correctAnswer === option;

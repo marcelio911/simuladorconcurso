@@ -118,7 +118,7 @@ form {
   align-items: flex-start;
   justify-content: flex-end;
   flex-wrap: wrap;
-  width: 100%;
+  width: 95%;
   height: 100px;
 }
 .action-box > *:first-child {
