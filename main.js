@@ -1,12 +1,11 @@
 // import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
-import './style.css';
+import './src/styles/main.css';
 
 import aiplatform from '@google-cloud/aiplatform';
 
 // 🔥 FILL THIS OUT FIRST! 🔥
 // 🔥 GET YOUR GEMINI API KEY AT 🔥
 // 🔥 https://g.co/ai/idxGetGeminiKey 🔥
-// let API_KEY = 'AIzaSyANKRfSMKHXSNIDU1ANarW7iS5V1s6kwMU';
 let form = document.querySelector('form');
 let promptInput = document.querySelector('input[name="prompt"]');
 let output = document.querySelector('.output');

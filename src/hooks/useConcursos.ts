@@ -10,7 +10,6 @@ const useConcursos = () => {
 
 
   // TODO: Get userId from context auth
-  const userId = '6649ad6e3204147e329206bf';
 
   const handleSave = async (callback: () => void) => {
 
@@ -18,7 +17,7 @@ const useConcursos = () => {
     callback();
   };
 
-  const handleSimulacoes = async (idConcurso: string) => {
+  const handleSimulacoes = async (idConcurso: string, userId: string) => {
     try {
       startLoading()
       const data = await fetchSimulacoesByConcursoId(idConcurso, userId);
@@ -51,8 +50,8 @@ const useConcursos = () => {
     }
   };
 
-  const handleSelected = async (concurso: string, callback: (concurso) => void) => {
-    await handleSimulacoes(concurso._id);
+  const handleSelected = async ({ concurso, userId }, callback: (concurso) => void) => {
+    await handleSimulacoes(concurso._id, userId);
     callback(concurso);
   };
 
@@ -86,7 +85,6 @@ const useConcursos = () => {
     simulacoes,
     loading,
     error,
-    userId,
     handleEdit,
     handleCancel,
     handleDelete,

@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Typography, Modal } from 'antd';
+import { Row, Button, Typography, Modal, Col } from 'antd';
 import useConcursos from '../hooks/useConcursos';
 import ConcursoCard from '../components/ConcursoCard';
 import ConcursoForm from '../components/ConcursoForm';
-import { useNavigate } from 'react-router-dom';
 
-const ConcursoList: React.FC = () => {
-  const { concursos, loading, error, userId, handleSelected } = useConcursos();
+type ConcursoDto = {
+  _id: string;
+  descricao: string;
+  dataProva: Date;
+  local: string;
+};
+
+interface ConcursoListProps {
+  userId: string,
+  onSelected: (concurso: string, type: string) => void;
+}
+const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
+  const { concursos, loading, error, handleSelected } = useConcursos();
   const [showForm, setShowForm] = useState(false);
-  const [selectedConcurso, setSelectedConcurso] = useState<any | null>(null);
+  const [selectedConcurso, setSelectedConcurso] = useState<ConcursoDto | null>(null);
 
   const handleAddNew = () => {
     setSelectedConcurso(null);
     setShowForm(true);
   };
 
-  const handleEdit = (concurso: any) => {
+  const handleEdit = (concurso: ConcursoDto) => {
     setSelectedConcurso(concurso);
     setShowForm(true);
   };
 
-  const handleView = (concurso: any) => {
+  const handleView = (concurso: ConcursoDto) => {
     console.log('View concurso:', concurso);
     // Navegar para a página de detalhes do concurso
   };
@@ -36,19 +46,35 @@ const ConcursoList: React.FC = () => {
     setSelectedConcurso(null);
   };
 
-  const navigate = useNavigate();
-
-  const navigation = (concurso) => {
+  const navigation = (concurso: ConcursoDto) => {
     console.log(selectedConcurso);
     setSelectedConcurso(concurso);
-    navigate(`/simulacoes/${concurso._id}/${userId}`);
+    // navigate(`/simulacoes/${concurso._id}/${userId}`);
   }
 
-
   return (
-    <div>
-      <Typography.Title level={2}>Concursos</Typography.Title>
-      <Button type="primary" onClick={handleAddNew} style={{ marginBottom: '16px' }}>Add Concurso</Button>
+    <Col>
+      <Typography variant="h4" component="h1" gutterBottom>Concursos</Typography>
+      {loading && <Typography.Text>Loading...</Typography.Text>}
+      {error && <Typography.Text type="danger">{error}</Typography.Text>}
+      <Row justify="space-around" gutter={16}>
+        <div className="horizontal-scroll">
+          {concursos.map((concurso) => (
+            <ConcursoCard
+              key={concurso._id}
+              concurso={concurso}
+              onEdit={() => handleEdit(concurso)}
+              onView={() => handleView(concurso)}
+              onSelection={() => { onSelected(concurso._id, 'simulacoes'), handleSelected({ concurso, userId }, navigation) }}
+
+            />
+          ))}
+          <div className="action-box">
+            <Button className='add-button' id="add-button" type="dashed" onClick={handleAddNew} style={{ marginBottom: '16px' }}>Adicione um Concurso</Button>
+          </div>
+
+        </div >
+      </Row>
       <Modal
         title={selectedConcurso ? 'Editar Concurso' : 'Adicionar Concurso'}
         open={showForm}
@@ -57,23 +83,8 @@ const ConcursoList: React.FC = () => {
       >
         <ConcursoForm concurso={selectedConcurso} onSave={handleSave} onCancel={handleCancel} />
       </Modal>
-      <Row gutter={16}>
-        {loading && <Typography.Text>Loading...</Typography.Text>}
-        {error && <Typography.Text type="danger">{error}</Typography.Text>}
-        {concursos.map((concurso) => (
-          <Col key={concurso.id} span={8}>
-            <ConcursoCard
-              key={concurso.id}
-              concurso={concurso}
-              onEdit={() => handleEdit(concurso)}
-              onView={() => handleView(concurso)}
-              onSelection={() => handleSelected(concurso, navigation)}
 
-            />
-          </Col>
-        ))}
-      </Row>
-    </div >
+    </Col>
   );
 };
 

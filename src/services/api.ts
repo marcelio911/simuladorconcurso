@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-export const API_BASE_URL = 'http://localhost:3000';
+const protocol = 'http';
+const webserver = '137.184.12.113:3000';
+
+export const API_BASE_URL = `${protocol}://${webserver}`; // ${ project } /${region}/${ endpoint }`;
+
 
 const api = axios.create({
   baseURL: API_BASE_URL,

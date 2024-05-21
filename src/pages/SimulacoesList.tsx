@@ -1,18 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
 import useSimulacoes from '../hooks/useSimulacoes';
 import SimulacoesCard from '../components/SimulacoesCard';
 import SimulacoesForm from '../components/SimulacoesForm';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Button, Card, Col, Modal, Row, Typography } from 'antd';
+type SimulacaoDto = {
+  _id: string;
+  nome: string;
+  data: Date;
+  concursoId: string;
+  userId: string;
+  questoes: string[];
+};
+interface SimulacoesProps {
+  concursoId: string;
+  userId: string;
+  onSelected: (simulacao: string, type: string) => void;
+}
 
-const SimulacoesList: React.FC = () => {
+
+const SimulacoesList: React.FC<SimulacoesProps> = ({
+  concursoId,
+  userId,
+  onSelected,
+}) => {
   const [showForm, setShowForm] = useState(false);
   const [selectedSimulacoes, setSelectedSimulacoes] = useState<any | null>(null);
-  const { loadSimulacoesByConcursoId, insertSimulacao, simulacoes, loading, error } = useSimulacoes();
-  const { concursoId, userId } = useParams();
+  const { loadSimulacoesByConcursoId, simulacoes, loading, error } = useSimulacoes();
+  // const { concursoId, userId } = useParams();
 
   useEffect(() => {
-    loadSimulacoesByConcursoId(concursoId);
+    if (concursoId) {
+      loadSimulacoesByConcursoId(concursoId, userId);
+    }
   }, [concursoId]);
 
   const navigate = useNavigate();
@@ -46,31 +66,48 @@ const SimulacoesList: React.FC = () => {
   };
 
   return (
-    <Box>
-      <Typography variant="h4" component="h1" gutterBottom>Simulacoes</Typography>
-      <Button variant="contained" onClick={handleAddNew} sx={{ marginBottom: 2 }}>Add Simulacoes</Button>
-      {showForm && (
-        <Box sx={{ borderBottom: '1px solid gray', paddingBottom: 2, marginBottom: 2 }}>
-          <SimulacoesForm
-            contest={selectedSimulacoes}
-            concursoId={concursoId}
-            userId={userId}
-            onSave={handleAfterSaved} onCancel={handleCancel} />
-        </Box>
-      )}
-      <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-        {loading && <Typography>Loading...</Typography>}
-        {error && <Typography>{error}</Typography>}
-        {simulacoes.map((simulacao) => (
-          <SimulacoesCard
-            key={simulacao.id}
-            contest={simulacao}
-            onEdit={() => handleEdit(simulacao)}
-            onView={() => handleView(simulacao)}
-          />
-        ))}
-      </Box>
-    </Box>
+    <Col>
+      <Typography variant="h4" component="h1" gutterBottom>Simulações</Typography>
+      {loading && <Typography.Text>Loading...</Typography.Text>}
+      {error && <Typography.Text type="danger">{error}</Typography.Text>}
+      <Row justify="space-around" gutter={16}>
+        <div className="horizontal-scroll">
+          {simulacoes?.map((simulacao) => (
+            <SimulacoesCard
+              key={simulacao._id}
+              contest={simulacao}
+              onEdit={() => handleEdit(simulacao)}
+              onView={() => handleView(simulacao)}
+            />
+          ))}
+
+          {
+            simulacoes?.length === 0 && (
+              <Card title="Simulação não encontrada" bordered={false}>
+                Nenhuma caderno de simulação para esta opção
+              </Card>
+            )
+          }
+          <div className="action-box">
+            <Button id="add-button_simulacao" className='add-button' type="dashed" onClick={handleAddNew} style={{ marginBottom: '16px' }}>Adicionar uma nova</Button>
+          </div>
+
+        </div>
+      </Row>
+      <Modal
+        title={selectedSimulacoes ? 'Editar Simulacao' : 'Adicionar Simulacao'}
+        open={showForm}
+        footer={null}
+        onCancel={handleCancel}
+      >
+        <SimulacoesForm
+          contest={selectedSimulacoes}
+          concursoId={concursoId}
+          userId={userId}
+          onSave={handleAfterSaved} onCancel={handleCancel} />
+      </Modal>
+
+    </Col >
   );
 };
 

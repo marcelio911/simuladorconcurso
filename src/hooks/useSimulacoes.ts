@@ -23,7 +23,7 @@ const useSimulacoes = () => {
     }
   }
 
-  const loadSimulacoesByConcursoId = async (concursoId?: string) => {
+  const loadSimulacoesByConcursoId = async (concursoId: string, userId: string) => {
     try {
       const data = await fetchSimulacoesByConcursoId(concursoId, userId);
       setSimulacoes(data);

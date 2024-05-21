@@ -1,0 +1,25 @@
+body[data-theme="dark"] {
+  background-color: #001529;
+  color: #ffffff;
+}
+
+body[data-theme="light"] {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Flexbox styles for horizontal scrolling */
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.horizontal-scroll > div {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.add-button {
+  border-radius: 40px;
+}

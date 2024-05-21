@@ -1,26 +1,43 @@
 // src/components/GoogleLoginButton.tsx
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
-import axios from 'axios';
+import api from '../services/api';
 
-const GoogleLoginButton: React.FC = () => {
+interface GoogleLoginProps {
+  clientId: string;
+  buttonText: string;
+  onSuccess: (response: any) => void;
+  onFailure: (response: any) => void;
+  cookiePolicy?: string;
+}
+
+
+const GoogleLoginButton: React.FC<GoogleLoginProps> = ({
+  clientId,
+  buttonText = 'Entrar com Google',
+  onSuccess,
+  onFailure,
+  cookiePolicy = 'single_host_origin',
+}) => {
   const handleLoginSuccess = async (response: any) => {
     const { tokenId } = response;
-    await axios.post('http://localhost:3000/auth/google', { tokenId });
+    await api.post('/auth/google', { tokenId });
     // Redirecionar ou fazer outra ação após o login bem-sucedido
+    onSuccess(response);
   };
 
   const handleLoginFailure = (response: any) => {
     console.error('Login falhou:', response);
+    onFailure(response);
   };
 
   return (
     <GoogleLogin
-      clientId="your-google-client-id"
-      buttonText="Login com Google"
+      clientId={clientId}
+      buttonText={buttonText}
       onSuccess={handleLoginSuccess}
       onFailure={handleLoginFailure}
-      cookiePolicy={'single_host_origin'}
+      cookiePolicy={cookiePolicy}
     />
   );
 };

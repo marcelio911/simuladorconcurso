@@ -3,7 +3,9 @@ import classnames from 'classnames';
 import ResultadosSimulado from './ResultadoSimulado';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getQuestions } from '../services/questions';
-
+import { Button, Layout } from 'antd';
+import HeaderBar from './Header';
+import { Content } from 'antd/es/layout/layout';
 export interface QuestionDto {
   id: number;
   questionText: string;
@@ -111,69 +113,73 @@ const QuestionComponent: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Simulador de Questões [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
+    <Layout>
+      <HeaderBar />
+      <Content style={{ padding: '0 50px' }}>
+        <h2>Simulador de Questões [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
 
-      <ResultadosSimulado
-        startTime={startTime}
-        questions={questions}
-        currentQuestionIndex={currentQuestionIndex}
-        correctAnswersHistory={correctAnswersHistory as any}
-        score={score}
-        handleNovoSimuladoClick={() => { backToHome() }}
-      />
-      {questions.length > 0 ? (
-        <div id="questionText">
-          <div key={currentQuestionIndex}>
-            <h3 >{questions[currentQuestionIndex]?.questionText}</h3>
-            {questions[currentQuestionIndex]?.options?.map((option) => {
-              const isSelected = selectedOption === option;
-              const isCorrect = questions[currentQuestionIndex].correctAnswer === option;
-              const optionClass = classnames({
-                'option': true,
-                'selected': isSelected,
-                'correct': isSelected && isCorrect,
-                'incorrect': isSelected && !isCorrect,
-              });
+        <ResultadosSimulado
+          startTime={startTime}
+          questions={questions}
+          currentQuestionIndex={currentQuestionIndex}
+          correctAnswersHistory={correctAnswersHistory as any}
+          score={score}
+          handleNovoSimuladoClick={() => { backToHome() }}
+        />
+        {questions.length > 0 ? (
+          <div id="questionText">
+            <div key={currentQuestionIndex}>
+              <h3 >{questions[currentQuestionIndex]?.questionText}</h3>
+              {questions[currentQuestionIndex]?.options?.map((option) => {
+                const isSelected = selectedOption === option;
+                const isCorrect = questions[currentQuestionIndex].correctAnswer === option;
+                const optionClass = classnames({
+                  'option': true,
+                  'selected': isSelected,
+                  'correct': isSelected && isCorrect,
+                  'incorrect': isSelected && !isCorrect,
+                });
 
-              return (
-                <div id="options" key={option} className={optionClass}>
-                  <input
-                    id={option}
-                    type="checkbox"
-                    onClick={(e) => handleAnswerOptionClick(option, e.currentTarget)}
-                    disabled={!!selectedOption}
-                    value={option.replace(' **', '')}
-                  />
-                  <span className="image-choice">{option.replace(' **', '')}</span>
-                  <input type="hidden" id="correctAnswer" value={questions[currentQuestionIndex].correctAnswer} />
-                </div>
-              );
-            })}
-          </div>
-          <div> &nbsp; </div>
-          {selectedOption && (
-            <div className="action-box">
-              <div>
-                {currentQuestionIndex > 0 &&
-                  <button id="back" onClick={handleBackQuestion}>Voltar</button>
-                }
-              </div>
-              <div >
-                <button id="next" onClick={handleNextQuestion}>Próx. Questão</button>
-              </div>
+                return (
+                  <div id="options" key={option} className={optionClass}>
+                    <input
+                      id={option}
+                      type="checkbox"
+                      onClick={(e) => handleAnswerOptionClick(option, e.currentTarget)}
+                      disabled={!!selectedOption}
+                      value={option.replace(' **', '')}
+                    />
+                    <span className="image-choice">{option.replace(' **', '')}</span>
+                    <input type="hidden" id="correctAnswer" value={questions[currentQuestionIndex].correctAnswer} />
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </div>
-      ) : (
-        <>
-          <p>{isLoading ? 'Loading...' : ''}</p>
-          <div>
-            <button onClick={loadApi}>Carregar Questões</button>
+            <div> &nbsp; </div>
+            {selectedOption && (
+              <div className="action-box">
+                <div>
+                  {currentQuestionIndex > 0 &&
+                    <Button id="back" type='dashed' onClick={handleBackQuestion}>Voltar</Button>
+                  }
+                </div>
+                <div >
+                  <Button id="next" type="primary" onClick={handleNextQuestion}>Próx. Questão</Button>
+                </div>
+              </div>
+            )}
           </div>
-        </>
-      )}
-    </div>
+        ) : (
+          <>
+            <p>{isLoading ? 'Loading...' : ''}</p>
+            <div>
+              <button onClick={loadApi}>Carregar Questões</button>
+            </div>
+          </>
+        )
+        }
+      </Content >
+    </Layout >
   );
 };
 

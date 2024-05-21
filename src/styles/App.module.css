@@ -1,0 +1,8 @@
+.container {
+  width: 95.5%;
+  height: 100%;
+  padding: 24px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #fff;
+}
