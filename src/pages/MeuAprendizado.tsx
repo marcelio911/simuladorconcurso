@@ -7,7 +7,7 @@ const MeuAprendizado: React.FC = () => {
 
   return (
     <Col>
-      <Typography variant="h4" component="h1" gutterBottom>Meu aprendizado</Typography>
+      <Typography>Meu aprendizado</Typography>
       {loading && <Typography.Text>Loading...</Typography.Text>}
       {error && <Typography.Text type="danger">{error}</Typography.Text>}
       <Row justify="space-around" gutter={16}>

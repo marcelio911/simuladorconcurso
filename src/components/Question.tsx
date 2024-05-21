@@ -25,7 +25,7 @@ const QuestionComponent: React.FC = () => {
   useEffect(() => {
     cleanStates();
     loadApi(); // Carregar as perguntas quando o componente montar
-  }, []);
+  });
 
   const cleanStates = () => {
     setQuestions([]);
@@ -48,7 +48,7 @@ const QuestionComponent: React.FC = () => {
   const loadApi = async () => {
     setIsLoading(true);
     try {
-      const response = await getQuestions({ simulacaoId });
+      const response = await getQuestions(simulacaoId as string);
       console.log(`Simulação ${simulacaoId}`);
       setQuestions(response.data);
     } catch (error) {
@@ -73,8 +73,8 @@ const QuestionComponent: React.FC = () => {
         correctAudioElement.play();
       });
       // Lidar com erros de carregamento
-      correctAudioElement.addEventListener('error', (event) => {
-        console.error('Erro ao carregar o áudio:', event.target.error);
+      correctAudioElement.addEventListener('error', (event: any) => {
+        console.error('Erro ao carregar o áudio:', event?.target?.error as string);
       });
     } else {
       // Toca um som de resposta errada
@@ -84,8 +84,8 @@ const QuestionComponent: React.FC = () => {
         incorrectAudioElement.play();
       });
       // Lidar com erros de carregamento
-      incorrectAudioElement.addEventListener('error', (event) => {
-        console.error('Erro ao carregar o áudio:', event.target.error);
+      incorrectAudioElement.addEventListener('error', (event: any) => {
+        console.error('Erro ao carregar o áudio:', event?.target?.error as string);
       });
     }
 

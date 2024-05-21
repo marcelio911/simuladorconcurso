@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { deleteConcurso, getConcursos } from '../services/api';
 import { fetchSimulacoesByConcursoId } from '../services/simulacoes';
+import { ConcursoDto } from '../pages/ConcursoList';
 
 const useConcursos = () => {
   const [concursos, setConcursos] = useState<any[]>([]);
@@ -50,7 +51,7 @@ const useConcursos = () => {
     }
   };
 
-  const handleSelected = async ({ concurso, userId }, callback: (concurso) => void) => {
+  const handleSelected = async ({ concurso, userId }: any, callback: (concurso: ConcursoDto) => void) => {
     await handleSimulacoes(concurso._id, userId);
     callback(concurso);
   };

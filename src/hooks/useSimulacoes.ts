@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createSimulacoes, fetchSimulacoesByConcursoId } from '../services/simulacoes';
-import { SimulacaoDto } from '../../backend/microservicos/src/types/dtos/Simulacao.dto';
 import { useParams } from 'react-router-dom';
+import { SimulacaoDto } from '../pages/SimulacoesList';
 
 const useSimulacoes = () => {
   const [simulacoes, setSimulacoes] = useState<any[]>([]);
@@ -9,7 +9,7 @@ const useSimulacoes = () => {
   const [error, setError] = useState<string | null>(null);
   const { userId } = useParams();
 
-  const insertSimulacao = async ({ userId, concursoId }) => {
+  const insertSimulacao = async ({ userId, concursoId }: any) => {
     try {
       const simulacaoDto: SimulacaoDto = {
         userId,

@@ -36,7 +36,7 @@ const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, us
     onSave();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     console.log('selectedFile:: ', selectedFile);
     if (!selectedFile) return; // No file selected

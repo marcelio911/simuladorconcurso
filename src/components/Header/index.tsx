@@ -33,7 +33,7 @@ const HeaderBar: React.FC = () => {
   return (
     <StyledHeader>
       <Button icon={<ArrowLeftOutlined />} onClick={handleBack} />
-      <MenuWrapper theme={theme} mode="horizontal" onClick={handleMenuClick}>
+      <MenuWrapper theme={theme as any} mode="horizontal" onClick={handleMenuClick}>
         <Menu.Item key="concursos" onClick={() => navigate('home', 'concursos')}>Concursos</Menu.Item>
         <Menu.Item key="simulacoes" onClick={() => navigate('home', 'simulacoes')}>Simulações</Menu.Item>
         <Menu.Item key="meuAprendizado" onClick={() => navigate('home', 'meuAprendizado')}>Meu Aprendizado</Menu.Item>

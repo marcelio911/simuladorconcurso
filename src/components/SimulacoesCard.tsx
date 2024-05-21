@@ -12,11 +12,11 @@ interface SimulacoesCardProps {
 const SimulacoesCard: React.FC<SimulacoesCardProps> = ({ contest, onEdit, onView }) => {
   const { startTime, endTime } = contest;
   return (
-    <Card title={contest.name} sx={{ minWidth: 275, margin: 2 }}>
+    <Card title={contest.name} bordered={true}>
       <Typography color="text.secondary">
         {contest.description}
       </Typography>
-      <Typography variant="body2">
+      <Typography >
         Iniciado em: {startTime ? formatDateTime(startTime) : '-'}
       </Typography>
       <Typography color="text.section">

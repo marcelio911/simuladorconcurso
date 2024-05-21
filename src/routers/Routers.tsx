@@ -1,9 +1,7 @@
 import { createHashRouter } from "react-router-dom";
 import LoginPage from '../pages/Login';
 import ErrorPage from '../pages/ErrorPage';
-import ConcursoList from "../pages/ConcursoList";
 import QuestionComponent from "../components/Question";
-import SimulacoesList from "../pages/SimulacoesList";
 import Home from "../pages/Home";
 
 export const router = createHashRouter([
@@ -21,16 +19,7 @@ export const router = createHashRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: '/concursos',
-    element: <ConcursoList />,
-  },
-  {
     path: '/questoes/:simulacaoId',
     Component: QuestionComponent,
-  },
-  {
-    path: '/simulacoes/:concursoId/:userId',
-    element: <SimulacoesList />,
-    errorElement: <ErrorPage />,
   },
 ]);

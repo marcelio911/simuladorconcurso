@@ -4,13 +4,13 @@ import SimulacoesCard from '../components/SimulacoesCard';
 import SimulacoesForm from '../components/SimulacoesForm';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Col, Modal, Row, Typography } from 'antd';
-type SimulacaoDto = {
-  _id: string;
-  nome: string;
-  data: Date;
+export type SimulacaoDto = {
+  _id?: string;
+  nome?: string;
+  data?: Date;
   concursoId: string;
   userId: string;
-  questoes: string[];
+  questoes?: string[];
 };
 interface SimulacoesProps {
   concursoId: string;
@@ -22,7 +22,6 @@ interface SimulacoesProps {
 const SimulacoesList: React.FC<SimulacoesProps> = ({
   concursoId,
   userId,
-  onSelected,
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [selectedSimulacoes, setSelectedSimulacoes] = useState<any | null>(null);
@@ -30,10 +29,10 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
   // const { concursoId, userId } = useParams();
 
   useEffect(() => {
-    if (concursoId) {
+    if (concursoId && userId) {
       loadSimulacoesByConcursoId(concursoId, userId);
     }
-  }, [concursoId]);
+  }, [concursoId, userId]);
 
   const navigate = useNavigate();
 
@@ -67,7 +66,7 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
 
   return (
     <Col>
-      <Typography variant="h4" component="h1" gutterBottom>Simulações</Typography>
+      <Typography>Simulações</Typography>
       {loading && <Typography.Text>Loading...</Typography.Text>}
       {error && <Typography.Text type="danger">{error}</Typography.Text>}
       <Row justify="space-around" gutter={16}>

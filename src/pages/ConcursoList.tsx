@@ -4,7 +4,7 @@ import useConcursos from '../hooks/useConcursos';
 import ConcursoCard from '../components/ConcursoCard';
 import ConcursoForm from '../components/ConcursoForm';
 
-type ConcursoDto = {
+export type ConcursoDto = {
   _id: string;
   descricao: string;
   dataProva: Date;
@@ -54,7 +54,7 @@ const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
 
   return (
     <Col>
-      <Typography variant="h4" component="h1" gutterBottom>Concursos</Typography>
+      <Typography>Concursos</Typography>
       {loading && <Typography.Text>Loading...</Typography.Text>}
       {error && <Typography.Text type="danger">{error}</Typography.Text>}
       <Row justify="space-around" gutter={16}>

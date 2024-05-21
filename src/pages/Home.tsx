@@ -9,7 +9,7 @@ import MeuAprendizado from './MeuAprendizado';
 
 const Home: React.FC = () => {
   const [concursoId, setConcursoId] = React.useState<string>('');
-  const [simulacaoId, setSimulacaoId] = React.useState<string>('');
+  const [, setSimulacaoId] = React.useState<string>('');
   const [userId] = React.useState<string>('6649ad6e3204147e329206bf');
 
   const onSelectedConcurso = (id: string, key: string) => {

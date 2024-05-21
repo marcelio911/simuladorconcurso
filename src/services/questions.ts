@@ -3,7 +3,7 @@ import FormData from 'form-data';
 import api, { API_BASE_URL } from './api';
 import { QuestionDto } from '../components/Question';
 
-export const getQuestions = async ({ simulacaoId }) => {
+export const getQuestions = async (simulacaoId: string) => {
   const response = await api.get<QuestionDto[]>(`/questions/simulacao/${simulacaoId}`);
   return {
     status: response.status,
