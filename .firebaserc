@@ -1,5 +1,6 @@
 {
   "projects": {
     "default": "ecommerceui-128f1"
-  }
+  },
+  "etags": {}
 }

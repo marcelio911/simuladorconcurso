@@ -30,11 +30,6 @@ const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
     setShowForm(true);
   };
 
-  const handleView = (concurso: ConcursoDto) => {
-    console.log('View concurso:', concurso);
-    // Navegar para a página de detalhes do concurso
-  };
-
   const handleSave = () => {
     setShowForm(false);
     setSelectedConcurso(null);
@@ -64,7 +59,6 @@ const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
               key={concurso._id}
               concurso={concurso}
               onEdit={() => handleEdit(concurso)}
-              onView={() => handleView(concurso)}
               onSelection={() => { onSelected(concurso._id, 'simulacoes'), handleSelected({ concurso, userId }, navigation) }}
 
             />

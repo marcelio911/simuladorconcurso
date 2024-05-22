@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Typography, Button } from 'antd';
 import { formatDateTime } from '../utils';
-import { CardActionArea } from '@mui/material';
 
 interface SimulacoesCardProps {
   contest: any;
@@ -24,11 +23,11 @@ const SimulacoesCard: React.FC<SimulacoesCardProps> = ({ contest, onEdit, onView
       </Typography>
 
 
-      <CardActionArea className='prompt-box'>
+      <div className='prompt-box'>
         <Button type="default" onClick={onView}>{!endTime ? 'Iniciar' : 'Revisar'}</Button>
 
-        <Button onClick={onEdit}>Editar</Button>
-      </CardActionArea>
+        <Button type='link' onClick={onEdit}>Editar</Button>
+      </div>
     </Card>
   );
 };

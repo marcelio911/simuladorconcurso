@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button } from '@mui/material';
 import { uploadQuestionsFileBySimulacaoId } from '../services/questions';
 import { createSimulacoes, updateSimulacoes } from '../services/simulacoes';
+import { Button } from 'antd';
 
 interface SimulacoesFormProps {
   contest?: any;
@@ -47,19 +47,21 @@ const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, us
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div className="form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <input type="text" placeholder="ID" value={contest?._id} />
       <input type="text" placeholder="ID do concurso" value={concursoId} />
       <input type="text" placeholder="ID do usuario" value={userId} />
-      <TextField label="Nome" value={name} onChange={(e) => setName(e.target.value)} />
+      <label htmlFor="nome" >Caderno de provas em PDF **</label>
+
+      <input id="nome" type="text" value={name} onChange={(e) => setName(e.target.value)} />
 
       <label htmlFor="fileInput" >Caderno de provas em PDF **</label>
       <input type="file" accept="pdf/*" id="fileInput" onChange={handleFileChange} />
 
-      <Button type="submit" variant="contained">Salvar</Button>
-      <Button variant="outlined" onClick={onCancel}>Cancelar</Button>
+      <Button type="primary" >Salvar</Button>
+      <Button type="link" onClick={onCancel}>Cancelar</Button>
 
-    </Box>
+    </div>
   );
 };
 

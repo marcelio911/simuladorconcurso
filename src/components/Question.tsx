@@ -25,7 +25,7 @@ const QuestionComponent: React.FC = () => {
   useEffect(() => {
     cleanStates();
     loadApi(); // Carregar as perguntas quando o componente montar
-  });
+  }, []);
 
   const cleanStates = () => {
     setQuestions([]);

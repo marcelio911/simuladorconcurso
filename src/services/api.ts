@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const protocol = 'http';
-const webserver = '137.184.12.113:3000';
+const protocol = 'https';
+const webserver = 'backendsimulator.systentando.com';
 
 export const API_BASE_URL = `${protocol}://${webserver}`; // ${ project } /${region}/${ endpoint }`;
 
