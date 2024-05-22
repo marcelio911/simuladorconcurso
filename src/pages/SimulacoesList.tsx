@@ -29,13 +29,16 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
   // const { concursoId, userId } = useParams();
 
   useEffect(() => {
-    if (concursoId && userId) {
-      loadSimulacoesByConcursoId(concursoId, userId);
-    }
+    _loadSimulacoesByConcursoId();
   }, [concursoId, userId]);
 
   const navigate = useNavigate();
 
+  const _loadSimulacoesByConcursoId = async () => {
+    if (concursoId && userId) {
+      loadSimulacoesByConcursoId(concursoId, userId);
+    }
+  }
 
   const handleAddNew = () => {
     setSelectedSimulacoes(null);
@@ -56,7 +59,8 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
   const handleAfterSaved = () => {
     setShowForm(false);
     setSelectedSimulacoes(null);
-    // Recarregar concursos
+    // Recarregar simulacoes
+    _loadSimulacoesByConcursoId();
   };
 
   const handleCancel = () => {

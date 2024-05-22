@@ -47,10 +47,10 @@ const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, us
   };
 
   return (
-    <div className="form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <input type="text" placeholder="ID" value={contest?._id} />
-      <input type="text" placeholder="ID do concurso" value={concursoId} />
-      <input type="text" placeholder="ID do usuario" value={userId} />
+    <form className="form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <input type="hidden" placeholder="ID Simulacao" value={contest?._id} />
+      <input type="hidden" placeholder="ID do concurso" value={concursoId} />
+      <input type="hidden" placeholder="ID do usuario" value={userId} />
       <label htmlFor="nome" >Caderno de provas em PDF **</label>
 
       <input id="nome" type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -58,10 +58,10 @@ const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, us
       <label htmlFor="fileInput" >Caderno de provas em PDF **</label>
       <input type="file" accept="pdf/*" id="fileInput" onChange={handleFileChange} />
 
-      <Button type="primary" >Salvar</Button>
+      <button type="submit">Salvar</button>
       <Button type="link" onClick={onCancel}>Cancelar</Button>
 
-    </div>
+    </form>
   );
 };
 

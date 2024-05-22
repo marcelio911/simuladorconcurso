@@ -13,7 +13,6 @@ const useConcursos = () => {
   // TODO: Get userId from context auth
 
   const handleSave = async (callback: () => void) => {
-
     await getConcursos();
     callback();
   };
@@ -64,20 +63,19 @@ const useConcursos = () => {
     setLoading(true);
   };
 
+  const loadConcursos = async () => {
+    try {
+      startLoading()
+      const data = await getConcursos();
+      setConcursos(data);
+    } catch (err) {
+      setError('Failed to fetch concursos');
+    } finally {
+      stopLoading()
+    }
+  };
 
   useEffect(() => {
-    const loadConcursos = async () => {
-      try {
-        startLoading()
-        const data = await getConcursos();
-        setConcursos(data);
-      } catch (err) {
-        setError('Failed to fetch concursos');
-      } finally {
-        stopLoading()
-      }
-    };
-
     loadConcursos();
   }, []);
 
