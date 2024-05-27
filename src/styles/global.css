@@ -9,20 +9,27 @@ body[data-theme="light"] {
 }
 
 .ant-menu-light .ant-menu-item {
-  color: 'white';
-  outline-color: 'white';
+  color: "white";
+  outline-color: "white";
+}
+
+#simulacoes {
+  display: grid;
+  height: auto;
 }
 
 /* Flexbox styles for horizontal scrolling */
 .horizontal-scroll {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
+  /* display: flex; */
+  /* overflow-x: auto; */
+  /* white-space: nowrap; */
+
 }
 
 .horizontal-scroll > div {
-  display: inline-block;
-  margin-right: 20px;
+  display: inline-grid;
+  margin: 10px;
+    white-space: nowrap;
 }
 
 .add-button {

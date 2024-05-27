@@ -120,11 +120,17 @@ export const uploadQuestionsFileBySimulacaoId = async (file: File, simulacaoId: 
     },
     data: formData
   };
-
-  const response = await api.request(config);
-  return {
-    status: response.status,
-    data: response.data
+  try {
+    const response = await api.request(config);
+    return {
+      status: response.status,
+      data: response.data
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      data: error
+    }
   }
 }
 
