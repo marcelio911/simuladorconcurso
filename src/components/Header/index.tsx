@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Menu, Button, Switch } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { LogoutOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import { MenuWrapper, RightSection, StyledHeader } from './styles';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { RightSection, StyledHeader } from './styles';
+import useQuestions from '../../hooks/useQuestions';
 
 const HeaderBar: React.FC = () => {
   const history = useNavigate();
+  const { explainQuetions } = useQuestions();
   const [theme, setTheme] = useState('light');
 
   const handleBack = () => {
@@ -33,18 +35,21 @@ const HeaderBar: React.FC = () => {
   return (
     <StyledHeader>
       <Button icon={<ArrowLeftOutlined />} onClick={handleBack} />
-      <MenuWrapper theme={theme as any} mode="horizontal" onClick={handleMenuClick}>
+      <Menu theme={theme as any} style={{ background: '#001529', color: 'white' }} mode="horizontal" onClick={handleMenuClick}>
         <Menu.Item key="concursos" onClick={() => navigate('home', 'concursos')}>Concursos</Menu.Item>
         <Menu.Item key="simulacoes" onClick={() => navigate('home', 'simulacoes')}>Simulações</Menu.Item>
         <Menu.Item key="meuAprendizado" onClick={() => navigate('home', 'meuAprendizado')}>Meu Aprendizado</Menu.Item>
-      </MenuWrapper>
+      </Menu>
       <RightSection>
         <Switch
           checkedChildren="Dark"
           unCheckedChildren="Light"
           onChange={handleThemeChange}
         />
-        <Button icon={<LogoutOutlined />}>Sair</Button>
+
+        <button type="submit" onClick={() => { explainQuetions() }} id="help">?</button>
+        {/* <Button icon={<LogoutOutlined />}>Sair</Button> */}
+
       </RightSection>
     </StyledHeader>
   );

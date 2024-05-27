@@ -8,6 +8,11 @@ body[data-theme="light"] {
   color: #000000;
 }
 
+.ant-menu-light .ant-menu-item {
+  color: 'white';
+  outline-color: 'white';
+}
+
 /* Flexbox styles for horizontal scrolling */
 .horizontal-scroll {
   display: flex;

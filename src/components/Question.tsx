@@ -6,6 +6,8 @@ import { getQuestions } from '../services/questions';
 import { Button, Layout } from 'antd';
 import HeaderBar from './Header';
 import { Content } from 'antd/es/layout/layout';
+import useQuestions from '../hooks/useQuestions';
+import useSimulacoes from '../hooks/useSimulacoes';
 export interface QuestionDto {
   id: number;
   questionText: string;
@@ -21,10 +23,16 @@ const QuestionComponent: React.FC = () => {
   const [correctAnswersHistory, setCorrectAnswersHistory] = useState<QuestionDto[]>([]);
   const [startTime, setStartTime] = useState<Date | undefined>();
   const { simulacaoId } = useParams();
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
+
+  const { updateCorrectAnswer, updateInCorrectAnswer } = useQuestions()
+  const { simulacaoById, getsimulacoesById } = useSimulacoes()
+
 
   useEffect(() => {
     cleanStates();
-    loadApi(); // Carregar as perguntas quando o componente montar
+    loadApi();
+    getsimulacoesById(simulacaoId as string);
   }, []);
 
   const cleanStates = () => {
@@ -49,7 +57,6 @@ const QuestionComponent: React.FC = () => {
     setIsLoading(true);
     try {
       const response = await getQuestions(simulacaoId as string);
-      console.log(`Simulação ${simulacaoId}`);
       setQuestions(response.data);
     } catch (error) {
       console.error('error::: ', error);
@@ -62,53 +69,44 @@ const QuestionComponent: React.FC = () => {
     e.setAttribute('checked', 'true');
 
     const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+    setShowCorrectAnswer(option !== correctAnswer);
 
     if (option === correctAnswer) {
       setScore(score + 1);
       setCorrectAnswersHistory([...correctAnswersHistory, questions[currentQuestionIndex]]); // Adiciona a resposta correta ao histórico
-      // Toca um som de resposta correta
-      const correctAudioElement = new Audio('/assets/sounds/correct-answer-sound.mp3');
-      correctAudioElement.addEventListener('canplaythrough', () => {
-        // O áudio está pronto para ser reproduzido
-        correctAudioElement.play();
-      });
-      // Lidar com erros de carregamento
-      correctAudioElement.addEventListener('error', (event: any) => {
-        console.error('Erro ao carregar o áudio:', event?.target?.error as string);
-      });
+      updateCorrectAnswer(questions[currentQuestionIndex]);
     } else {
-      // Toca um som de resposta errada
-      const incorrectAudioElement = new Audio('/assets/sounds/wrong-answer-sound2.mp3');
-      incorrectAudioElement.addEventListener('canplaythrough', () => {
-        // O áudio está pronto para ser reproduzido
-        incorrectAudioElement.play();
-      });
-      // Lidar com erros de carregamento
-      incorrectAudioElement.addEventListener('error', (event: any) => {
-        console.error('Erro ao carregar o áudio:', event?.target?.error as string);
-      });
+      updateInCorrectAnswer(questions[currentQuestionIndex]);
+
     }
 
     setSelectedOption(option);
 
   };
 
+  const cleanExplain = () => {
+    document.getElementById('explain')!.innerHTML = '';
+  }
+
   const handleBackQuestion = () => {
     if (currentQuestionIndex > 0) {
       setSelectedOption(null);
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
+    cleanExplain();
   }
   const handleNextQuestion = () => {
+
     // Calcula o tempo que o usuário levou para responder
     const endTime = new Date();
     const responseTime = endTime.getTime() - startTime!.getTime(); // Tempo em milissegundos
     // Registra o tempo de resposta da pergunta atual (em segundos)
     // Aqui você pode armazenar em outro componente ou enviar para o servidor
     console.log(`Tempo de resposta para a pergunta ${currentQuestionIndex + 1}: ${responseTime / 1000} segundos`);
-
+    setShowCorrectAnswer(false);
     setSelectedOption(null);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
+    cleanExplain();
 
   };
 
@@ -116,7 +114,7 @@ const QuestionComponent: React.FC = () => {
     <Layout>
       <HeaderBar />
       <Content style={{ padding: '0 50px' }}>
-        <h2>Simulador de Questões [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
+        <h2>Simulação: {simulacaoById.name as unknown as string} | [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
 
         <ResultadosSimulado
           startTime={startTime}
@@ -136,7 +134,7 @@ const QuestionComponent: React.FC = () => {
                 const optionClass = classnames({
                   'option': true,
                   'selected': isSelected,
-                  'correct': isSelected && isCorrect,
+                  'correct': showCorrectAnswer && isCorrect,
                   'incorrect': isSelected && !isCorrect,
                 });
 
@@ -168,13 +166,18 @@ const QuestionComponent: React.FC = () => {
                 </div>
               </div>
             )}
+            <div id="explain"></div>
           </div>
         ) : (
           <>
+            <br />
             <p>{isLoading ? 'Loading...' : ''}</p>
-            <div>
-              <button onClick={loadApi}>Carregar Questões</button>
-            </div>
+            <h2>Parabéns!!</h2>
+            <h3>
+              {questions.length === 0 && !isLoading ? `
+               \n\nParece que você acertou todas as questões para esta simulação ${simulacaoById.name as unknown as string} !
+            ` : ''}
+            </h3>
           </>
         )
         }

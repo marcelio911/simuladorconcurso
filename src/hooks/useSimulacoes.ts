@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { createSimulacoes, fetchSimulacoesByConcursoId } from '../services/simulacoes';
+import { createSimulacoes, fetchSimulacoesByConcursoId, fetchSimulacoesById } from '../services/simulacoes';
 import { useParams } from 'react-router-dom';
 import { SimulacaoDto } from '../pages/SimulacoesList';
 
 const useSimulacoes = () => {
   const [simulacoes, setSimulacoes] = useState<any[]>([]);
+  const [simulacaoById, setSimulacao] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { userId } = useParams();
@@ -34,9 +35,23 @@ const useSimulacoes = () => {
     }
   };
 
+  const getsimulacoesById = async (simulacaoId: string) => {
+    try {
+      const data = await fetchSimulacoesById(simulacaoId);
+      setSimulacao(data);
+      return data;
+    } catch (err) {
+      setError('Failed to fetch simulacoes');
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
-  return { loadSimulacoesByConcursoId, insertSimulacao, userId, simulacoes, loading, error };
+
+
+
+  return { getsimulacoesById, loadSimulacoesByConcursoId, insertSimulacao, userId, simulacaoById, simulacoes, loading, error };
 };
 
 export default useSimulacoes;
