@@ -1,12 +1,20 @@
+import { useDispatch } from "react-redux";
 import { QuestionDto } from "../components/Question";
 import { explain, updateQuestionCorrectAnswer, updateStatisticsQuestionInCorrectAnswer } from "../services/questions";
+import { startLoading, stopLoading } from "@/store/slices/loadingSlice";
 
 const useQuestions = () => {
-  const explainQuetions = () => {
+
+  const dispatch = useDispatch();
+
+  const explainQuetions = async () => {
     try {
-      explain();
+      dispatch(startLoading());
+      await explain();
+      dispatch(stopLoading());
     } catch (error) {
       console.error('error::: ', error);
+      dispatch(stopLoading());
     }
   }
 

@@ -6,20 +6,18 @@ import HeaderBar from '../components/Header';
 import ConcursoList from './ConcursoList';
 import SimulacoesList from './SimulacoesList';
 import MeuAprendizado from './MeuAprendizado';
+import useSimulacoes from '@/hooks/useSimulacoes';
 
 const Home: React.FC = () => {
-  const [concursoId, setConcursoId] = React.useState<string>('');
   const [, setSimulacaoId] = React.useState<string>('');
   const [userId] = React.useState<string>('6649ad6e3204147e329206bf');
+  const { selectedConcursoId } = useSimulacoes();
 
-  const onSelectedConcurso = (id: string, key: string) => {
-    console.log(id);
-    setConcursoId(id);
+  const onSelectedConcurso = (_id: string, key: string) => {
     handleMenuClick({ key });
   };
 
   const onSelectedSimulacao = (id: string, key: string) => {
-    console.log(id);
     setSimulacaoId(id);
     handleMenuClick({ key });
 
@@ -35,12 +33,12 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <HeaderBar />
-      <Content style={{ padding: '0 50px' }}>
+      <Content style={{ padding: '12vh 50px 0 50px' }}>
         <div id="concursos">
           <ConcursoList onSelected={onSelectedConcurso} userId={userId} />
         </div>
         <div id="simulacoes">
-          <SimulacoesList concursoId={concursoId} userId={userId} onSelected={onSelectedSimulacao} />
+          <SimulacoesList concursoId={selectedConcursoId} userId={userId} onSelected={onSelectedSimulacao} />
         </div>
         <div id="meuAprendizado">
           <MeuAprendizado />

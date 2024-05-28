@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { uploadQuestionsFileBySimulacaoId } from '../services/questions';
 import { createSimulacoes, updateSimulacoes } from '../services/simulacoes';
-import { Button } from 'antd';
+import LoadingButton from './Button';
 
 interface SimulacoesFormProps {
   contest?: any;
@@ -27,7 +27,6 @@ const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, us
       }
     } else {
       const saved = await createSimulacoes(newContest);
-      console.log('saved', saved);
       if (saved && file) {
         await uploadQuestionsFileBySimulacaoId(file, saved._id);
       }
@@ -57,9 +56,8 @@ const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, us
 
       <label htmlFor="fileInput" >Caderno de provas em PDF **</label>
       <input type="file" accept="pdf/*" id="fileInput" onChange={handleFileChange} />
-
       <button type="submit">Salvar</button>
-      <Button type="link" onClick={onCancel}>Cancelar</Button>
+      <LoadingButton loading type="link" onClick={onCancel}>Cancelar</LoadingButton>
 
     </form>
   );

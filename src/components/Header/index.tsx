@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Menu, Button, Switch } from 'antd';
+import { Button, Switch } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { RightSection, StyledHeader } from './styles';
 import useQuestions from '../../hooks/useQuestions';
+import MenuComponent from './MenuComponent';
 
 const HeaderBar: React.FC = () => {
   const history = useNavigate();
   const { explainQuetions } = useQuestions();
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
 
   const handleBack = () => {
     history(-1);
@@ -26,20 +27,18 @@ const HeaderBar: React.FC = () => {
     }
   };
 
-  const navigate = (path: string, key: string) => {
+  const navigate = (path: string, section: string) => {
+    console.info(`Navigating to ${path} - ${section}`);
     history('/' + path);
-    handleMenuClick(key);
+    handleMenuClick(section);
   };
-
 
   return (
     <StyledHeader>
       <Button icon={<ArrowLeftOutlined />} onClick={handleBack} />
-      <Menu theme={theme as any} style={{ background: '#001529', color: 'white' }} mode="horizontal" onClick={handleMenuClick}>
-        <Menu.Item key="concursos" onClick={() => navigate('home', 'concursos')}>Concursos</Menu.Item>
-        <Menu.Item key="simulacoes" onClick={() => navigate('home', 'simulacoes')}>Simulações</Menu.Item>
-        <Menu.Item key="meuAprendizado" onClick={() => navigate('home', 'meuAprendizado')}>Meu Aprendizado</Menu.Item>
-      </Menu>
+
+      <MenuComponent theme={theme} handleMenuClick={handleMenuClick} navigate={navigate} />
+
       <RightSection>
         <Switch
           checkedChildren="Dark"

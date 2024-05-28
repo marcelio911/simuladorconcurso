@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useSimulacoes from '../hooks/useSimulacoes';
 import SimulacoesCard from '../components/SimulacoesCard';
 import SimulacoesForm from '../components/SimulacoesForm';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Col, Modal, Row, Typography } from 'antd';
+import Loading from '@/components/Loading';
 export type SimulacaoDto = {
   _id?: string;
-  nome?: string;
+  name?: string;
   data?: Date;
   concursoId: string;
   userId: string;
   questoes?: string[];
 };
 interface SimulacoesProps {
-  concursoId: string;
+  concursoId: string | null;
   userId: string;
   onSelected: (simulacao: string, type: string) => void;
 }
@@ -25,20 +26,9 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [selectedSimulacoes, setSelectedSimulacoes] = useState<any | null>(null);
-  const { loadSimulacoesByConcursoId, simulacoes, loading, error } = useSimulacoes();
-  // const { concursoId, userId } = useParams();
-
-  useEffect(() => {
-    _loadSimulacoesByConcursoId();
-  }, [concursoId, userId]);
+  const { simulacoes, errorSimulados, _loadSimulacoesByConcursoId } = useSimulacoes();
 
   const navigate = useNavigate();
-
-  const _loadSimulacoesByConcursoId = async () => {
-    if (concursoId && userId) {
-      loadSimulacoesByConcursoId(concursoId, userId);
-    }
-  }
 
   const handleAddNew = () => {
     setSelectedSimulacoes(null);
@@ -51,7 +41,6 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
   };
 
   const handleView = (simulacao: any) => {
-    console.log('View simulacoes:', simulacao);
     // Navegar para a página de detalhes do concurso
     navigate('/questoes/' + simulacao._id);
   };
@@ -70,9 +59,9 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
 
   return (
     <Col>
-      <Typography>Simulações</Typography>
-      {loading && <Typography.Text>Loading...</Typography.Text>}
-      {error && <Typography.Text type="danger">{error}</Typography.Text>}
+      <h2>Simulações</h2>
+      <Loading />
+      {errorSimulados && <h3><Typography.Text type="danger">{errorSimulados}</Typography.Text></h3>}
       <Row justify="space-around" gutter={16}>
         <div className="horizontal-scroll">
           {simulacoes?.map((simulacao) => (
@@ -103,11 +92,13 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
         footer={null}
         onCancel={handleCancel}
       >
-        <SimulacoesForm
-          contest={selectedSimulacoes}
-          concursoId={concursoId}
-          userId={userId}
-          onSave={handleAfterSaved} onCancel={handleCancel} />
+        {concursoId &&
+          <SimulacoesForm
+            contest={selectedSimulacoes}
+            concursoId={concursoId}
+            userId={userId}
+            onSave={handleAfterSaved} onCancel={handleCancel} />
+        }
       </Modal>
 
     </Col >

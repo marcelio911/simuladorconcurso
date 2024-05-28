@@ -3,6 +3,7 @@ import { Row, Button, Typography, Modal, Col } from 'antd';
 import useConcursos from '../hooks/useConcursos';
 import ConcursoCard from '../components/ConcursoCard';
 import ConcursoForm from '../components/ConcursoForm';
+import Loading from '@/components/Loading';
 
 export type ConcursoDto = {
   _id: string;
@@ -16,7 +17,7 @@ interface ConcursoListProps {
   onSelected: (concurso: string, type: string) => void;
 }
 const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
-  const { concursos, loading, error, handleSelected } = useConcursos();
+  const { concursos, errorConcurso, handleSelected } = useConcursos();
   const [showForm, setShowForm] = useState(false);
   const [selectedConcurso, setSelectedConcurso] = useState<ConcursoDto | null>(null);
 
@@ -33,7 +34,6 @@ const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
   const handleSave = () => {
     setShowForm(false);
     setSelectedConcurso(null);
-    // Recarregar concursos
   };
 
   const handleCancel = () => {
@@ -42,19 +42,17 @@ const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
   };
 
   const navigation = (concurso: ConcursoDto) => {
-    console.log(selectedConcurso);
     setSelectedConcurso(concurso);
-    // navigate(`/simulacoes/${concurso._id}/${userId}`);
   }
 
   return (
     <Col>
-      <Typography>Concursos</Typography>
-      {loading && <Typography.Text>Loading...</Typography.Text>}
-      {error && <Typography.Text type="danger">{error}</Typography.Text>}
+      <h2>Concursos</h2>
+      <Loading />
+      {errorConcurso && <h3><Typography.Text type="danger">{errorConcurso}</Typography.Text></h3>}
       <Row justify="space-around" gutter={16}>
         <div className="horizontal-scroll">
-          {concursos.map((concurso) => (
+          {concursos?.map((concurso) => (
             <ConcursoCard
               key={concurso._id}
               concurso={concurso}

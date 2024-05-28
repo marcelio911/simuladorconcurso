@@ -1,57 +1,31 @@
-import { useState } from 'react';
-import { createSimulacoes, fetchSimulacoesByConcursoId, fetchSimulacoesById } from '../services/simulacoes';
 import { useParams } from 'react-router-dom';
-import { SimulacaoDto } from '../pages/SimulacoesList';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { RootState } from '@/store';
+import * as ActionsSimulado from '@/store/slices/simulacoesSlice';
 
 const useSimulacoes = () => {
-  const [simulacoes, setSimulacoes] = useState<any[]>([]);
-  const [simulacaoById, setSimulacao] = useState<any>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { userId } = useParams();
+  const dispatch = useDispatch();
+  const { simulacoes, selectedSimulacao, selectedConcursoId, error: errorSimulados } = useSelector((state: RootState) => state.simulacoes);
 
-  const insertSimulacao = async ({ userId, concursoId }: any) => {
-    try {
-      const simulacaoDto: SimulacaoDto = {
-        userId,
-        concursoId,
-      };
-      await createSimulacoes(simulacaoDto);
-    } catch (err) {
-      setError('Failed to insert simulacao');
-    } finally {
-      setLoading(false);
+  const _loadSimulacoesByConcursoId = async () => {
+    if (selectedConcursoId && userId) {
+      dispatch(ActionsSimulado.handleSimulacoes({ useCache: false, idConcurso: selectedConcursoId, userId }));
     }
   }
 
-  const loadSimulacoesByConcursoId = async (concursoId: string, userId: string) => {
-    try {
-      const data = await fetchSimulacoesByConcursoId(concursoId, userId);
-      setSimulacoes(data);
-    } catch (err) {
-      setError('Failed to fetch simulacoes');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const getsimulacoesById = async (simulacaoId: string) => {
-    try {
-      const data = await fetchSimulacoesById(simulacaoId);
-      setSimulacao(data);
-      return data;
-    } catch (err) {
-      setError('Failed to fetch simulacoes');
-    } finally {
-      setLoading(false);
+    if (simulacaoId) {
+      dispatch(ActionsSimulado.handleSelectedSimulacaoById(simulacaoId));
     }
-  };
+  }
 
+  const insertSimulacao = async ({ userId, concursoId }: any) => {
+    dispatch(ActionsSimulado.handleInsertSimulacao({ userId, concursoId }));
+  }
 
-
-
-
-  return { getsimulacoesById, loadSimulacoesByConcursoId, insertSimulacao, userId, simulacaoById, simulacoes, loading, error };
+  return { insertSimulacao, _loadSimulacoesByConcursoId, getsimulacoesById, userId, selectedSimulacao, simulacoes, selectedConcursoId, errorSimulados };
 };
 
 export default useSimulacoes;

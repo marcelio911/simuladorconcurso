@@ -9,7 +9,7 @@ import { Content } from 'antd/es/layout/layout';
 import useQuestions from '../hooks/useQuestions';
 import useSimulacoes from '../hooks/useSimulacoes';
 export interface QuestionDto {
-  id: number;
+  _id: number;
   questionText: string;
   options: string[];
   correctAnswer: string;
@@ -26,7 +26,7 @@ const QuestionComponent: React.FC = () => {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   const { updateCorrectAnswer, updateInCorrectAnswer } = useQuestions()
-  const { simulacaoById, getsimulacoesById } = useSimulacoes()
+  const { selectedSimulacao, getsimulacoesById } = useSimulacoes()
 
 
   useEffect(() => {
@@ -113,9 +113,11 @@ const QuestionComponent: React.FC = () => {
   return (
     <Layout>
       <HeaderBar />
-      <Content style={{ padding: '0 50px' }}>
-        <h2>Simulação: {simulacaoById.name as unknown as string} | [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
+      <Content style={{ padding: '12vh 50px 0 50px' }}>
 
+        {!!selectedSimulacao && (
+          <h2>Simulado de Prova: {selectedSimulacao.name as unknown as string} | [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
+        )}
         <ResultadosSimulado
           startTime={startTime}
           questions={questions}
@@ -175,7 +177,7 @@ const QuestionComponent: React.FC = () => {
             <h2>Parabéns!!</h2>
             <h3>
               {questions.length === 0 && !isLoading ? `
-               \n\nParece que você acertou todas as questões para esta simulação ${simulacaoById.name as unknown as string} !
+               \n\nParece que você acertou todas as questões para esta simulação ${selectedSimulacao?.name as unknown as string} !
             ` : ''}
             </h3>
           </>

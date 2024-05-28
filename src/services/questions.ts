@@ -18,8 +18,6 @@ export const explain = async () => {
 
         const response = await api.post('/questions/gpt-explain', { prompt });
         const explanation = response.data;
-        console.log(explanation);
-
         // Você pode agora exibir a explicação no seu UI ou retorná-la de alguma forma.
         document.getElementById('explain')!.innerHTML = explanation;
       } catch (error) {
@@ -53,13 +51,11 @@ export const explain = async () => {
 //         const generativelanguageClient =
 //           genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
 
-//         console.log('Generated prompt:', prompt);
 //         const result = await generativelanguageClient.generateContent(
 //           prompt
 //         );
 //         const response = await result.response;
 //         const text = response.text();
-//         console.log(text);
 
 //         const explanation = text;
 //         document.getElementById('explain')!.innerHTML = `<h3 class="explainsResponse">${explanation}</h3>`;
@@ -98,7 +94,7 @@ export const updateQuestionCorrectAnswer = async (question: QuestionDto) => {
 }
 
 export const updateStatisticsQuestionInCorrectAnswer = async (question: QuestionDto) => {
-  const response = await api.put<QuestionDto[]>(`/estatisticas/${question.id}`, question);
+  const response = await api.put<QuestionDto[]>(`/estatisticas/${question._id || 0}`, question);
   return {
     status: response.status,
     data: response.data

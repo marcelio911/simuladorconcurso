@@ -4,6 +4,11 @@ import { Layout, Menu } from 'antd';
 const { Header } = Layout;
 
 export const StyledHeader = styled(Header)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
