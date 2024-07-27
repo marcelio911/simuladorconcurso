@@ -32,6 +32,7 @@ const useConcursos = () => {
   };
 
   const handleSelected = async ({ concurso, userId }: any, callback: (concurso: ConcursoDto) => void) => {
+    dispatch(ActionsConcurso.selectConcursoId(concurso._id));
     dispatch(ActionsSimulado.handleSimulacoes({ useCache: true, idConcurso: concurso._id, userId }));
     callback(concurso);
   };

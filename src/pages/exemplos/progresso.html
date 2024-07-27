@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progresso das Etapas</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+  <header class="bg-blue-500 text-white py-4">
+    <div class="container mx-auto text-center">
+      <h1 class="text-2xl font-bold">Progresso do Plano</h1>
+      <p class="mt-2">Acompanhe seu progresso nas etapas do plano.</p>
+    </div>
+  </header>
+
+  <main class="container mx-auto my-8 p-4">
+    <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+      <h2 class="text-xl font-bold mb-4">Progresso das Etapas</h2>
+      <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+        <div id="progress-bar" class="bg-blue-500 h-4 rounded-full" style="width: 0%;"></div>
+      </div>
+      <div class="flex justify-between text-gray-600">
+        <span>Etapa 1</span>
+        <span>Etapa 2</span>
+        <span>Etapa 3</span>
+        <span>Etapa 4</span>
+      </div>
+    </section>
+
+    <section class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-bold mb-4">Etapas do Plano</h2>
+      <div id="steps">
+        <!-- Etapas do plano serão renderizadas aqui -->
+      </div>
+    </section>
+
+    <footer class="text-center py-4">
+      <p class="text-gray-600">Lembre-se de acompanhar seu progresso regularmente.</p>
+    </footer>
+  </main>
+
+  <script>
+    const steps = [
+      { id: 1, title: "Definição de Metas", description: "Estabeleça metas claras para os estudos e para a produção de artigos científicos." },
+      { id: 2, title: "Criação de Rotinas e Hábitos", description: "Crie um cronograma de estudos e reserve tempo para cada matéria." },
+      { id: 3, title: "Acompanhamento e Ajustes", description: "Monitore seu progresso e faça ajustes conforme necessário." },
+      { id: 4, title: "Conclusão", description: "Revise suas metas e ajuste seu plano para garantir que está no caminho certo." }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const stepsContainer = document.getElementById('steps');
+      const progressBar = document.getElementById('progress-bar');
+
+      steps.forEach((step, index) => {
+        const stepElement = document.createElement('div');
+        stepElement.className = 'p-4 mb-4 bg-gray-100 rounded-lg shadow';
+        stepElement.innerHTML = `
+          <h3 class="text-lg font-semibold mb-2">${step.title}</h3>
+          <p>${step.description}</p>
+          <button class="mt-2 py-1 px-4 bg-blue-500 text-white rounded" onclick="completeStep(${index})">Marcar como Concluído</button>
+        `;
+        stepsContainer.appendChild(stepElement);
+      });
+
+      window.completeStep = (index) => {
+        steps[index].completed = true;
+        updateProgress();
+      };
+
+      const updateProgress = () => {
+        const completedSteps = steps.filter(step => step.completed).length;
+        const totalSteps = steps.length;
+        const progressPercentage = (completedSteps / totalSteps) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+      };
+    });
+  </script>
+
+</body>
+
+</html>

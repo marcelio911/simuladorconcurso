@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+  <html lang="pt-BR">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotina e Metodologia de Estudos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+      const rotinaDiaria = [
+        { "horario": "6:00 - 6:30", "atividade": "Atividade física (ex: corrida, yoga, caminhada)" },
+        { "horario": "6:30 - 7:00", "atividade": "Café da manhã / Descanso" },
+        { "horario": "7:00 - 9:00", "atividade": "Estudos para o concurso (Matérias específicas e gerais)" },
+        { "horario": "9:00 - 9:30", "atividade": "Descanso / Intervalo" },
+        { "horario": "9:30 - 11:30", "atividade": "Estudos para o concurso (Continuação)" },
+        { "horario": "11:30 - 12:00", "atividade": "Alongamento / Breve caminhada" },
+        { "horario": "12:00 - 13:00", "atividade": "Almoço" },
+        { "horario": "13:00 - 15:00", "atividade": "Escrita de artigos científicos (Pesquisa e redação)" },
+        { "horario": "15:00 - 15:30", "atividade": "Descanso / Lanche" },
+        { "horario": "15:30 - 17:00", "atividade": "Escrita de artigos científicos (Continuação)" },
+        { "horario": "17:00 - 17:30", "atividade": "Descanso / Intervalo" },
+        { "horario": "17:30 - 19:30", "atividade": "Estudos para o concurso (Continuação)" },
+        { "horario": "19:30 - 20:00", "atividade": "Jantar" },
+        { "horario": "20:00 - 21:30", "atividade": "Revisão dos estudos para o concurso" },
+        { "horario": "21:30 - 22:00", "atividade": "Tempo livre / Atividade relaxante" },
+        { "horario": "22:00 - 22:30", "atividade": "Preparação para dormir (higiene, leitura tranquila)" },
+        { "horario": "22:30 - 6:00", "atividade": "Sono de qualidade" }
+      ];
+
+      const metodologiaEstudos = [
+          { "titulo": "Defina suas metas", "descricao": "Estabeleça metas claras para os estudos e para a produção de artigos científicos. Determine quais matérias do concurso requerem maior atenção e priorize-as." },
+          { "titulo": "Organize um plano de estudos", "descricao": "Divida os conteúdos do concurso por disciplinas e crie um cronograma de estudos para cada uma delas. Reserve um tempo diário para estudar cada matéria." },
+          { "titulo": "Utilize técnicas de aprendizagem eficientes", "descricao": "Experimente diferentes técnicas de estudo, como revisão espaçada, resumos, mapas mentais e questões de prática." },
+          { "titulo": "Estude em blocos de tempo", "descricao": "Utilize a técnica Pomodoro ou outros intervalos de estudo concentrado, alternando com pequenos descansos." },
+          { "titulo": "Mantenha o foco e evite distrações", "descricao": "Desligue dispositivos eletrônicos não relacionados aos estudos durante os períodos de estudo." },
+          { "titulo": "Pratique a escrita científica", "descricao": "Reserve um tempo dedicado exclusivamente à pesquisa e redação dos artigos científicos, seguindo as normas das revistas desejadas." },
+          { "titulo": "Revise regularmente", "descricao": "Reserve momentos para revisar o conteúdo estudado e os artigos escritos, garantindo a assimilação do conhecimento." },
+          { "titulo": "Acompanhe seu progresso", "descricao": "Registre suas atividades diárias e faça uma autoavaliação periódica para verificar o cumprimento das metas estabelecidas." }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const rotinaTableBody = document.querySelector('tbody');
+          rotinaDiaria.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td class="border px-4 py-2">${item.horario}</td><td class="border px-4 py-2">${item.atividade}</td>`;
+            rotinaTableBody.appendChild(row);
+          });
+
+          const metodologiaList = document.querySelector('ul');
+          metodologiaEstudos.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<strong>${item.titulo}:</strong> ${item.descricao}`;
+            metodologiaList.appendChild(listItem);
+          });
+        });
+      </script>
+  </head>
+
+  <body class="bg-gray-100">
+    <header class="bg-blue-500 text-white py-4">
+      <div class="container mx-auto text-center">
+        <h1 class="text-2xl font-bold">Planeje e Alcance Seus Objetivos</h1>
+        <p class="mt-2">Adapte sua rotina e metodologia de estudos conforme suas necessidades.</p>
+      </div>
+    </header>
+
+    <main class="container mx-auto my-8 p-4">
+      <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-xl font-bold mb-4">Rotina Diária</h2>
+        <table class="min-w-full bg-white">
+          <thead class="bg-gray-200 text-gray-600">
+            <tr>
+              <th class="w-1/3 px-4 py-2">Horário</th>
+              <th class="w-2/3 px-4 py-2">Atividade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Renderizar atividades da rotina diária -->
+          </tbody>
+        </table>
+      </section>
+
+      <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-xl font-bold mb-4">Metodologia de Estudos</h2>
+        <ul class="list-disc pl-5">
+          <!-- Renderizar metodologia de estudos -->
+        </ul>
+      </section>
+
+      <footer class="text-center py-4">
+        <p class="text-gray-600">Lembre-se de que a rotina deve ser adaptada às suas necessidades e preferências
+          pessoais.</p>
+        <p class="text-gray-600">Reserve um tempo para momentos de descanso, relaxamento e lazer para evitar sobrecarga
+          e esgotamento.</p>
+      </footer>
+    </main>
+  </body>
+
+  </html>

@@ -10,11 +10,13 @@ interface Concurso extends ConcursoDto {
 
 interface ConcursosState {
   concursos: ConcursoDto[] | null;
+  concursoSelected: string | null;
   error: string | null;
 }
 
 const initialState: ConcursosState = {
   concursos: null,
+  concursoSelected: null,
   error: null,
 };
 
@@ -26,14 +28,16 @@ const concursosSlice = createSlice({
       state.concursos = action.payload;
       state.error = null;
     },
-
+    selectConcursoId(state, action: PayloadAction<string>) {
+      state.concursoSelected = action.payload;
+    },
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
     },
   },
 });
 
-export const { setConcursos, setError } = concursosSlice.actions;
+export const { setConcursos, selectConcursoId, setError } = concursosSlice.actions;
 
 const load = ({ useCache = true }): AppThunk => async (dispatch, getState) => {
   const { concursos } = getState();
@@ -50,6 +54,10 @@ const load = ({ useCache = true }): AppThunk => async (dispatch, getState) => {
   }
 };
 
+const selectConcurso = (id: string): AppThunk => async (dispatch) => {
+  dispatch(selectConcursoId(id));
+}
+
 const handleDelete = (id: string): AppThunk => async (dispatch) => {
   try {
     dispatch(startLoading());
@@ -63,4 +71,4 @@ const handleDelete = (id: string): AppThunk => async (dispatch) => {
 };
 
 export default concursosSlice.reducer;
-export { load, handleDelete };
+export { load, handleDelete, selectConcurso };

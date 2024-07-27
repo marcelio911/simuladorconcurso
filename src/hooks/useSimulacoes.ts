@@ -24,8 +24,17 @@ const useSimulacoes = () => {
   const insertSimulacao = async ({ userId, concursoId }: any) => {
     dispatch(ActionsSimulado.handleInsertSimulacao({ userId, concursoId }));
   }
+  const handleClean = () => {
+    dispatch(ActionsSimulado.handleClean());
+  }
 
-  return { insertSimulacao, _loadSimulacoesByConcursoId, getsimulacoesById, userId, selectedSimulacao, simulacoes, selectedConcursoId, errorSimulados };
+  return {
+    insertSimulacao,
+    _loadSimulacoesByConcursoId,
+    getsimulacoesById,
+    handleClean,
+    userId, selectedSimulacao, simulacoes, selectedConcursoId, errorSimulados
+  };
 };
 
 export default useSimulacoes;

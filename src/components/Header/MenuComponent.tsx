@@ -13,17 +13,22 @@ const MenuComponent: React.FC<Props> = ({ theme, handleMenuClick, navigate }) =>
     {
       key: 'concursos',
       label: 'Concursos',
-      onClick: () => navigate('home', 'concursos'),
+      onClick: () => navigate('dashboard', 'concursos'),
     },
     {
       key: 'simulacoes',
       label: 'Simulações',
-      onClick: () => navigate('home', 'simulacoes'),
+      onClick: () => navigate('dashboard', 'simulacoes'),
     },
     {
       key: 'meuAprendizado',
       label: 'Meu Aprendizado',
-      onClick: () => navigate('home', 'meuAprendizado'),
+      onClick: () => navigate('dashboard', 'meuAprendizado'),
+    },
+    {
+      key: 'my-routine',
+      label: 'Minha rotina',
+      onClick: () => navigate('my-routine', 'my-routine'),
     },
   ];
 

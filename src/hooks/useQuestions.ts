@@ -1,11 +1,14 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { QuestionDto } from "../components/Question";
 import { explain, updateQuestionCorrectAnswer, updateStatisticsQuestionInCorrectAnswer } from "../services/questions";
 import { startLoading, stopLoading } from "@/store/slices/loadingSlice";
+import { RootState } from "@/store";
 
 const useQuestions = () => {
 
   const dispatch = useDispatch();
+  const { selectedSimulacao: simulacao } = useSelector((state: RootState) => state.simulacoes);
+
 
   const explainQuetions = async () => {
     try {
@@ -47,7 +50,14 @@ const useQuestions = () => {
   const updateCorrectAnswer = (question: QuestionDto) => {
     try {
       playCorrectAudio();
-      updateQuestionCorrectAnswer(question);
+      if (simulacao) {
+        updateQuestionCorrectAnswer(question,
+          simulacao.userId,
+          simulacao.concursoId,
+          simulacao._id,
+          simulacao.name!
+        );
+      }
     } catch (error) {
       console.error('error::: ', error);
     }
@@ -56,7 +66,14 @@ const useQuestions = () => {
   const updateInCorrectAnswer = (question: QuestionDto) => {
     try {
       playInCorrectAudio();
-      updateStatisticsQuestionInCorrectAnswer(question);
+      if (simulacao) {
+        updateStatisticsQuestionInCorrectAnswer(question,
+          simulacao.userId,
+          simulacao.concursoId,
+          simulacao._id,
+          simulacao.name!
+        );
+      }
     } catch (error) {
       console.error('error::: ', error);
     }

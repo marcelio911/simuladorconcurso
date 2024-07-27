@@ -85,16 +85,45 @@ export const updateQuestion = async (question: QuestionDto) => {
   }
 }
 
-export const updateQuestionCorrectAnswer = async (question: QuestionDto) => {
-  const response = await api.put<QuestionDto[]>(`/questions/is-correct`, question);
+const staticDto = (
+  question: QuestionDto,
+  userId: string,
+  concursoId: string,
+  simulacaoId: string,
+  simulacaoName: string) => {
+
+  return {
+    userId: userId,
+    concursoId: concursoId,
+    simulacaoId: simulacaoId,
+    simulacaoName: simulacaoName,
+    question: question,
+
+  }
+}
+
+export const updateQuestionCorrectAnswer = async (question: QuestionDto,
+  userId: string,
+  concursoId: string,
+  simulacaoId: string,
+  simulacaoName: string) => {
+  const isCorrect: QuestionDto = (await api.put<QuestionDto>(`/questions/is-correct`, question))?.data;
+  const response = await api.post<QuestionDto[]>(`/estatisticas/`, staticDto(isCorrect, userId, concursoId, simulacaoId, simulacaoName));
   return {
     status: response.status,
     data: response.data
   }
 }
 
-export const updateStatisticsQuestionInCorrectAnswer = async (question: QuestionDto) => {
-  const response = await api.put<QuestionDto[]>(`/estatisticas/${question._id || 0}`, question);
+export const updateStatisticsQuestionInCorrectAnswer = async (question: QuestionDto,
+  userId: string,
+  concursoId: string,
+  simulacaoId: string,
+  simulacaoName: string) => {
+
+  const isIncorrect: QuestionDto = (await api.put<QuestionDto>(`/questions/is-incorrect`, question))?.data;
+
+  const response = await api.post<QuestionDto[]>(`/estatisticas/`, staticDto(isIncorrect, userId, concursoId, simulacaoId, simulacaoName));
   return {
     status: response.status,
     data: response.data

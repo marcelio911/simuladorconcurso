@@ -8,6 +8,10 @@ body[data-theme="light"] {
   color: #000000;
 }
 
+.ant-card-head {
+  background: #d7d8d7 !important;
+}
+
 .ant-menu-light .ant-menu-item {
   color: "white";
   outline-color: "white";
@@ -23,13 +27,12 @@ body[data-theme="light"] {
   /* display: flex; */
   /* overflow-x: auto; */
   /* white-space: nowrap; */
-
 }
 
 .horizontal-scroll > div {
   display: inline-grid;
   margin: 10px;
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .add-button {

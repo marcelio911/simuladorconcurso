@@ -1,0 +1,115 @@
+{
+  "steps": [
+    {
+      "id": 1,
+      "title": "Etapa 1 - Definição de Metas",
+      "description": "Estabeleça metas claras e específicas para guiar seus estudos de longo, médio e curto prazo para o seu objetivo",
+      "hints": [
+        {
+          "title": "Objetivo estabelecido",
+          "content": [
+            "Ser aprovado no concurso e me tornar professor efetivo até Dezembro de 2025"
+          ]
+        },
+        {
+          "title": "Concursos previstos para 2024. O que vem por aí?",
+          "content": [
+            "Concurso professor Instituto Federal Cubatão/SP - [data: 00/00/0000]",
+            "Concurso professor Instituto Federal Paraíba/PB - [data: 00/00/0000]",
+            "Concurso professor Instituto Federal Pernambuco/PE - [data: 00/00/0000]"
+          ]
+        },
+        {
+          "title": "Como devo me organizar?",
+          "content": [
+            "Completar o cronograma de estudos até Dezembro de 2024",
+            "Criar o cronograma de estudos de Janeiro a Junho 2025"
+          ]
+        },
+        {
+          "title": "Meus desafios da semana",
+          "content": [
+            "Escrever minha tese de Doutorado",
+            "Estudar 2 horas por dia Legislação (X, Y, Z)",
+            "Estudar 2 horas por dia Específica (X)",
+            "Fazer uma simulação de PROVA baseada nestes conteúdos"
+          ]
+        }
+      ],
+      "completed": true
+    },
+    {
+      "id": 2,
+      "title": "Etapa 2 - Criação de Rotinas e Hábitos",
+      "description": "Organize seus horários de estudo e mantenha hábitos saudáveis",
+      "hints": [
+        {
+          "title": "Rotinas Diárias",
+          "content": [
+            "Para melhores resultados e uma vida equilibrada e organizada",
+            "Inclua atividades físicas e momentos de lazer na sua rotina de estudos"
+          ]
+        },
+        {
+          "title": "Técnicas de Estudo",
+          "content": [
+            "Utilize métodos de revisão, organização de materiais e estudo concentrado",
+            "Utilize os resumos, mapas mentais e flashcards para facilitar a memorização",
+            "Estabeleça metas diárias e semanais de estudo"
+          ]
+        }
+      ],
+      "completed": false
+    },
+    {
+      "id": 3,
+      "title": "Etapa 3 - Acompanhamento e Ajustes",
+      "description": "Monitore seu progresso e faça ajustes conforme necessário",
+      "hints": [
+        {
+          "title": "Registro de Progresso",
+          "content": [
+            "Faça simulações de provas baseados em concursos anteriores",
+            "Monitore seu desempenho destes simulados de provas de concursos"
+          ]
+        },
+        {
+          "title": "Acompanhamento",
+          "content": [
+            "Acompanhe seu progresso em relação às metas estabelecidas",
+            "Receba notificações e lembretes sobre suas metas e tarefas"
+          ]
+        },
+        {
+          "title": "Feedback e avaliação",
+          "content": [
+            "Este assistente avaliará seu progresso 100% do tempo",
+            "Receba feedbacks sobre seu desempenho e sugestões de melhoria",
+            "Dê feedback sobre suas dificuldades e necessidades"
+          ]
+        }
+      ],
+      "completed": false
+    },
+    {
+      "id": 4,
+      "title": "Etapa 4 - Conclusão",
+      "description": "Plataformas e Inteligência Artificial. Utilize a tecnologia para melhorar seu desempenho e acesso às informações",
+      "hints": [
+        {
+          "title": "Integração com Assistentes de Voz",
+          "content": [
+            "Use comandos de voz e lembretes com Alexa ou Google Assistant"
+          ]
+        },
+        {
+          "title": "Dados de Uso",
+          "content": [
+            "Analise a frequência de acesso e as funcionalidades mais utilizadas"
+          ]
+        }
+      ],
+      "completed": false
+    }
+  ]
+}

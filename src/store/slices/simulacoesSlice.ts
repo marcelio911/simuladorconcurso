@@ -40,10 +40,16 @@ const simulacoesSlice = createSlice({
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
     },
+    clean(state) {
+      state.simulacoes = null;
+      state.selectedConcursoId = null;
+      state.selectedSimulacao = null;
+      state.error = null;
+    }
   },
 });
 
-export const { setSimulacoes, setSelectedSimulacao, setError, setSelectedConcursoId } = simulacoesSlice.actions;
+export const { clean, setSimulacoes, setSelectedSimulacao, setError, setSelectedConcursoId } = simulacoesSlice.actions;
 
 const handleSimulacoes = ({
   useCache = true,
@@ -100,5 +106,14 @@ const handleInsertSimulacao = ({
   }
 };
 
+const handleClean = (): AppThunk => async (dispatch) => {
+  dispatch(clean());
+}
+
 export default simulacoesSlice.reducer;
-export { handleSimulacoes, handleSelectedSimulacaoById, handleInsertSimulacao };
+export {
+  handleSimulacoes,
+  handleSelectedSimulacaoById,
+  handleInsertSimulacao,
+  handleClean,
+};

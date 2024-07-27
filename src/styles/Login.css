@@ -1,0 +1,28 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh; /* Define a altura como 50% da altura da viewport */
+  background-color: #f0f0f0;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100vh;
+  position: absolute; /* Posicionamento absoluto */
+  top: 50%; /* Posiciona na metade da tela verticalmente */
+  left: 50%; /* Posiciona na metade da tela horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta a posição exata para o centro */
+}
+
+.login-container h1 {
+  margin-bottom: 10px;
+}
+
+.login-container p {
+  margin-bottom: 20px;
+  text-align: center;
+  color: rgb(12, 117, 123);
+}

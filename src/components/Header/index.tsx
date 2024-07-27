@@ -5,8 +5,11 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { RightSection, StyledHeader } from './styles';
 import useQuestions from '../../hooks/useQuestions';
 import MenuComponent from './MenuComponent';
+interface HeaderProps {
+  isLogged?: boolean;
+}
 
-const HeaderBar: React.FC = () => {
+const HeaderBar: React.FC<HeaderProps> = ({ isLogged = false }) => {
   const history = useNavigate();
   const { explainQuetions } = useQuestions();
   const [theme, setTheme] = useState('dark');
@@ -36,20 +39,22 @@ const HeaderBar: React.FC = () => {
   return (
     <StyledHeader>
       <Button icon={<ArrowLeftOutlined />} onClick={handleBack} />
+      {isLogged && (
+        <><MenuComponent theme={theme} handleMenuClick={handleMenuClick} navigate={navigate} />
 
-      <MenuComponent theme={theme} handleMenuClick={handleMenuClick} navigate={navigate} />
+          <RightSection>
+            <Switch
+              checkedChildren="Dark"
+              unCheckedChildren="Light"
+              onChange={handleThemeChange}
+            />
 
-      <RightSection>
-        <Switch
-          checkedChildren="Dark"
-          unCheckedChildren="Light"
-          onChange={handleThemeChange}
-        />
+            <button type="submit" onClick={() => { explainQuetions() }} id="help">?</button>
+            {/* <Button icon={<LogoutOutlined />}>Sair</Button> */}
 
-        <button type="submit" onClick={() => { explainQuetions() }} id="help">?</button>
-        {/* <Button icon={<LogoutOutlined />}>Sair</Button> */}
-
-      </RightSection>
+          </RightSection>
+        </>
+      )}
     </StyledHeader>
   );
 };

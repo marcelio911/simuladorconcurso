@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage';
 import toastReducer from '@/store/slices/toastSlice';
 import loadingReducer from '@/store/slices/loadingSlice';
 import concursosReducer from '@/store/slices/concursosSlice';
+import estatisticasReducer from '@/store/slices/estatisticasSlice';
 import simulacoesReducer from '@/store/slices/simulacoesSlice';
 
 const rootPersistConfig = {
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   toast: toastReducer,
   loading: loadingReducer,
   concursos: concursosReducer,
+  estatisticas: estatisticasReducer,
   simulacoes: simulacoesReducer,
 })
 

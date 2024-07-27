@@ -13,6 +13,8 @@ export interface QuestionDto {
   questionText: string;
   options: string[];
   correctAnswer: string;
+  correctAnswerChecked: boolean;
+  attempt: number;
 }
 const QuestionComponent: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionDto[]>([]);
