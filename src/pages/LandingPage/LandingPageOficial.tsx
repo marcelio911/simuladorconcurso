@@ -15,7 +15,7 @@ const LandingPage: React.FC = () => {
         subtitle="Prepare-se para o concurso de professor de Instituto Federal com um assistente completo e personalizado."
         imageUrl="/path-to-your-image.jpg"
       />
-      <main className="container mx-auto p-4">
+      <main className="container mx-auto mt-12 p-4">
         {steps.map((step) => (
           <FeatureSection
             initialTitle={step.title}

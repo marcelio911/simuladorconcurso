@@ -3,11 +3,12 @@ import classnames from 'classnames';
 import ResultadosSimulado from './ResultadoSimulado';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getQuestions } from '../services/questions';
-import { Button, Layout } from 'antd';
+import { Button } from 'antd';
 import HeaderBar from './Header';
-import { Content } from 'antd/es/layout/layout';
 import useQuestions from '../hooks/useQuestions';
 import useSimulacoes from '../hooks/useSimulacoes';
+import DefaultLayout from '@/components/Templates/DefaultLayout';
+
 export interface QuestionDto {
   _id: number;
   questionText: string;
@@ -29,6 +30,7 @@ const QuestionComponent: React.FC = () => {
 
   const { updateCorrectAnswer, updateInCorrectAnswer } = useQuestions()
   const { selectedSimulacao, getsimulacoesById } = useSimulacoes()
+  const { explainQuetions } = useQuestions();
 
 
   useEffect(() => {
@@ -113,21 +115,28 @@ const QuestionComponent: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <DefaultLayout>
       <HeaderBar />
-      <Content style={{ padding: '12vh 50px 0 50px' }}>
+      <button type="submit" onClick={() => { explainQuetions() }} id="help">?</button>
+
+      <section className="pr-2 pl-2 pt-4 bg-painel rounded-lg  ">
+
 
         {!!selectedSimulacao && (
           <h2>Simulado de Prova: {selectedSimulacao.name as unknown as string} | [{startTime?.toLocaleTimeString()}] - Questão [{currentQuestionIndex + 1}/{questions.length}] - Acertos [{score}] </h2>
         )}
-        <ResultadosSimulado
-          startTime={startTime}
-          questions={questions}
-          currentQuestionIndex={currentQuestionIndex}
-          correctAnswersHistory={correctAnswersHistory as any}
-          score={score}
-          handleNovoSimuladoClick={() => { backToHome() }}
-        />
+        <div className={`activity-row w-96 pointer theme-color p-3 m-4 border-l-4 border-gray-300 `}>
+
+          <ResultadosSimulado
+            startTime={startTime}
+            questions={questions}
+            currentQuestionIndex={currentQuestionIndex}
+            correctAnswersHistory={correctAnswersHistory as any}
+            score={score}
+            handleNovoSimuladoClick={() => { backToHome() }}
+          />
+        </div>
+
         {questions.length > 0 ? (
           <div id="questionText">
             <div key={currentQuestionIndex}>
@@ -185,8 +194,8 @@ const QuestionComponent: React.FC = () => {
           </>
         )
         }
-      </Content >
-    </Layout >
+      </section>
+    </DefaultLayout >
   );
 };
 

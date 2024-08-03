@@ -3,18 +3,19 @@ import React from 'react';
 interface HintProps {
   title: string;
   content: string[];
-  onClick?: () => void;
+  _onClick?: () => void;
   onEdit?: () => void;
+  concurso?: any;
   bg?: string;
 }
 
-const Hint: React.FC<HintProps> = ({ title, onClick, content, bg = 'bg-blue-100' }) => {
+const ListItem: React.FC<HintProps> = ({ title, _onClick, content, bg = 'bg-blue-100' }) => {
   return (
-    <div onClick={() => onClick} className={`p-4 border-l-4 border-blue-500 mb-4 ${bg}`}>
+    <div onClick={_onClick} className={`activity-row w-96 pointer p-3 m-4 border-l-4 border-gray-300 ${bg}`}>
       <h3 className="text-lg font-semibold">{title}</h3>
       <ul>{content.map(text => (<li className="mt-2">[+] {text}</li>))}</ul>
     </div>
   );
 };
 
-export default Hint;
+export default ListItem;

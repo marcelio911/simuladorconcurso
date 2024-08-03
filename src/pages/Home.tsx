@@ -1,6 +1,5 @@
 import React from 'react';
 import LandingPage from './LandingPage/LandingPageOficial';
-// import 'antd/dist/antd.css';
 
 const Home: React.FC = () => {
 

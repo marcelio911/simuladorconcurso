@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useSimulacoes from '../hooks/useSimulacoes';
+import SimulacoesCard from '../components/SimulacoesCard';
 import SimulacoesForm from '../components/SimulacoesForm';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Modal, Typography } from 'antd';
+import { Button, Card, Col, Modal, Row, Typography } from 'antd';
 import Loading from '@/components/Loading';
-import ListItem from '@/components/Templates/ListItem';
 export type SimulacaoDto = {
   _id?: string;
   name?: string;
@@ -57,42 +57,35 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
     setSelectedSimulacoes(null);
   };
 
-  useEffect(() => {
-    // Força o recálculo da altura do viewport
-    window.dispatchEvent(new Event('resize'));
-  }, []); // Executa apenas uma vez quando o componente é montado
-
-
   return (
-    <section className="pr-2 pl-2 pt-4 bg-painel rounded-lg  ">
-
+    <Col>
+      <h2>Simulações</h2>
       <Loading />
       {errorSimulados && <h3><Typography.Text type="danger">{errorSimulados}</Typography.Text></h3>}
-      <div className="horizontal-scroll ">
+      <Row justify="space-around" gutter={16}>
+        <div className="horizontal-scroll">
+          {simulacoes?.map((simulacao) => (
+            <SimulacoesCard
+              key={simulacao._id}
+              contest={simulacao}
+              onEdit={() => handleEdit(simulacao)}
+              onView={() => handleView(simulacao)}
+            />
+          ))}
 
-        {simulacoes?.map((simulacao) => (
-          <ListItem
+          {
+            simulacoes?.length === 0 && (
+              <Card title="Simulação não encontrada" bordered={false}>
+                Nenhuma caderno de simulação para esta opção
+              </Card>
+            )
+          }
+          <div className="action-box">
+            <Button id="add-button_simulacao" className='add-button' type="dashed" onClick={handleAddNew} style={{ marginBottom: '16px' }}>Adicionar uma nova</Button>
+          </div>
 
-            title={simulacao.name as string}
-            content={[simulacao.name as string, `Data: ${simulacao?.data}`]}
-            key={simulacao._id}
-            _onClick={() => { handleView(simulacao) }}
-            onEdit={() => handleEdit(simulacao)}
-            concurso={simulacao}
-          />
-        ))}
-
-        {
-          simulacoes?.length === 0 && (
-            <Card title="Simulação não encontrada" bordered={false}>
-              Nenhuma caderno de simulação para esta opção
-            </Card>
-          )
-        }
-      </div>
-      <div className="action-box">
-        <Button id="add-button_simulacao" className='add-button' type="dashed" onClick={handleAddNew} style={{ marginBottom: '16px' }}>Adicionar uma nova</Button>
-      </div>
+        </div>
+      </Row>
       <Modal
         title={selectedSimulacoes ? 'Editar Simulacao' : 'Adicionar Simulacao'}
         open={showForm}
@@ -107,8 +100,8 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
             onSave={handleAfterSaved} onCancel={handleCancel} />
         }
       </Modal>
-    </section >
 
+    </Col >
   );
 };
 

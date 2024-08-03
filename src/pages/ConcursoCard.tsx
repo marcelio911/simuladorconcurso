@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Typography, Modal } from 'antd';
+import { Row, Button, Typography, Modal, Col } from 'antd';
 import useConcursos from '../hooks/useConcursos';
+import ConcursoCard from '../components/ConcursoCard';
 import ConcursoForm from '../components/ConcursoForm';
 import Loading from '@/components/Loading';
-import ListItem from '@/components/Templates/ListItem';
 
 export type ConcursoDto = {
   _id: string;
@@ -46,27 +46,26 @@ const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
   }
 
   return (
-    <section className="pr-2 mb-4 pl-2 pt-4 bg-painel rounded-lg  ">
-
+    <Col>
       <Loading />
       {errorConcurso && <h3><Typography.Text type="danger">{errorConcurso}</Typography.Text></h3>}
-      <div className="horizontal-scroll">
-        {concursos?.map((concurso) => (
-          <ListItem
-            title={concurso.descricao}
-            content={[concurso.local, `Data: ${concurso?.dataProva}`]}
-            key={concurso._id}
-            _onClick={() => { onSelected(concurso._id, 'simulacoes'), handleSelected({ concurso, userId }, navigation) }}
-            onEdit={() => handleEdit(concurso)}
-            concurso={concurso}
-          />
+      <Row justify="space-around" gutter={16}>
+        <div className="horizontal-scroll">
+          {concursos?.map((concurso) => (
+            <ConcursoCard
+              key={concurso._id}
+              concurso={concurso}
+              onEdit={() => handleEdit(concurso)}
+              onSelection={() => { onSelected(concurso._id, 'simulacoes'), handleSelected({ concurso, userId }, navigation) }}
 
-        ))}
-        <div className="action-box">
-          <Button className='add-button' id="add-button" type="dashed" onClick={handleAddNew} style={{ marginBottom: '16px' }}>Adicione um Concurso</Button>
-        </div>
+            />
+          ))}
+          <div className="action-box">
+            <Button className='add-button' id="add-button" type="dashed" onClick={handleAddNew} style={{ marginBottom: '16px' }}>Adicione um Concurso</Button>
+          </div>
 
-      </div >
+        </div >
+      </Row>
       <Modal
         title={selectedConcurso ? 'Editar Concurso' : 'Adicionar Concurso'}
         open={showForm}
@@ -76,7 +75,7 @@ const ConcursoList: React.FC<ConcursoListProps> = ({ userId, onSelected }) => {
         <ConcursoForm concurso={selectedConcurso} onSave={handleSave} onCancel={handleCancel} />
       </Modal>
 
-    </section>
+    </Col>
   );
 };
 

@@ -10,18 +10,29 @@ interface Step {
   description: string;
   hints: HintData[];
   completed: boolean;
+  showed?: boolean;
 }
 
-const stepsData: Step[] = steps;
+const stepsData: Step[] = steps.map((step, index) => ({
+  ...step,
+  showed: index === 0,
+}));
 
 const StepList: React.FC = () => {
   const [steps, setSteps] = useState<Step[]>(stepsData);
 
+
   const completeStep = (id: number) => {
     setSteps(prevSteps =>
-      prevSteps.map(step =>
-        step.id === id ? { ...step, completed: true } : step
-      )
+      prevSteps.map(step => {
+        if (step.id === id) {
+          return { ...step, completed: true, showed: false };
+        }
+        else if (step.id === id + 1) {
+          return { ...step, showed: true };
+        }
+        return step;
+      })
     );
   };
 
@@ -41,7 +52,7 @@ const StepList: React.FC = () => {
       <ProgressBar progress={progressPercentage} />
       <div className="flex justify-between text-gray-600 mb-4">
         {steps.map((step) => (
-          <span key={step.id}>{step.title}</span>
+          <span key={step.id}>{step.title.split('-')[0]}</span>
         ))}
       </div>
       {steps.map(step => (
@@ -51,6 +62,7 @@ const StepList: React.FC = () => {
           description={step.description}
           hints={step.hints}
           completed={step.completed}
+          showed={step.showed}
           onComplete={() => completeStep(step.id)}
         />
       ))}

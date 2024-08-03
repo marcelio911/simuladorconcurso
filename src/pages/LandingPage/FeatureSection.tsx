@@ -57,7 +57,9 @@ const FeatureSection: React.FC<FeatureProps> = ({ initialTitle, initialDescripti
             className="text-4xl font-bold border-b-2"
           />
         ) : (
-          <h2 className="text-4xl font-bold">{title}</h2>
+
+          <h2 className="text-lg font-semibold mb-2">{title}</h2>
+
         )}
         {isEditing && userProfile == 'admin' ? (
           <textarea
@@ -97,7 +99,7 @@ const FeatureSection: React.FC<FeatureProps> = ({ initialTitle, initialDescripti
         ))}
       </div>
       {userProfile == 'admin' && (
-        <div className="text-right">
+        <div className="text-left">
           <button
             onClick={() => setIsEditing(!isEditing)}
             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"

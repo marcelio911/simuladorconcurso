@@ -1,5 +1,4 @@
 import React from 'react';
-// import 'antd/dist/antd.css';
 import { Content } from 'antd/es/layout/layout';
 import HeaderBar from '../components/Header';
 import ConcursoList from './ConcursoList';
@@ -7,7 +6,7 @@ import SimulacoesList from './SimulacoesList';
 import MeuAprendizado from './MeuAprendizado';
 import useSimulacoes from '@/hooks/useSimulacoes';
 import useToggle from '@/hooks/useToggle';
-import MyLayout from '@/components/Templates/MyLayout';
+import DefaultLayout from '@/components/Templates/DefaultLayout';
 
 const Questoes: React.FC = () => {
   const [, setSimulacaoId] = React.useState<string>('');
@@ -38,7 +37,7 @@ const Questoes: React.FC = () => {
   };
 
   return (
-    <MyLayout>
+    <DefaultLayout>
       <HeaderBar />
       <Content style={{ padding: '12vh 50px 0 50px' }}>
         <div id="concursos">
@@ -55,7 +54,7 @@ const Questoes: React.FC = () => {
           )
         }
       </Content>
-    </MyLayout>
+    </DefaultLayout>
   );
 };
 
