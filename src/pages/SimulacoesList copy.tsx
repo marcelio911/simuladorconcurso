@@ -26,7 +26,7 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [selectedSimulacoes, setSelectedSimulacoes] = useState<any | null>(null);
-  const { simulacoes, errorSimulados, _loadSimulacoesByConcursoId } = useSimulacoes();
+  const { simulacoes, errorSimulados, _loadSimulacoesByTemaEspecificoId } = useSimulacoes();
 
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
     setShowForm(false);
     setSelectedSimulacoes(null);
     // Recarregar simulacoes
-    _loadSimulacoesByConcursoId();
+    _loadSimulacoesByTemaEspecificoId();
   };
 
   const handleCancel = () => {
@@ -95,7 +95,7 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
         {concursoId &&
           <SimulacoesForm
             contest={selectedSimulacoes}
-            concursoId={concursoId}
+            temaEspecificoId={concursoId}
             userId={userId}
             onSave={handleAfterSaved} onCancel={handleCancel} />
         }

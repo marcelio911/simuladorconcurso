@@ -8,6 +8,7 @@ import loadingReducer from '@/store/slices/loadingSlice';
 import concursosReducer from '@/store/slices/concursosSlice';
 import estatisticasReducer from '@/store/slices/estatisticasSlice';
 import simulacoesReducer from '@/store/slices/simulacoesSlice';
+import temasEspecificosReducer from '@/store/slices/temaEspecificoSlice';
 
 const rootPersistConfig = {
   timeout: 0,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   concursos: concursosReducer,
   estatisticas: estatisticasReducer,
   simulacoes: simulacoesReducer,
+  temasEspecificos: temasEspecificosReducer,
 })
 
 

@@ -6,11 +6,17 @@ import HeaderBar from '@/components/Header';
 import ConcursoList from '../ConcursoList';
 import useToggle from '@/hooks/useToggle';
 import { motion } from 'framer-motion';
+import TemasEspecificosList from '../TemasEspecificosList';
+import useTemasEspecificos from '@/hooks/useTemasEspecificos';
+
 const Simulations: React.FC = () => {
 
   const [, setSimulacaoId] = React.useState<string>('');
   const [userId] = React.useState<string>('6649ad6e3204147e329206bf');
-  const { selectedConcursoId, handleClean } = useSimulacoes();
+
+  const { selectedConcursoId, handleClean: handleCleanTemasEspecificos } = useTemasEspecificos();
+  const { selectedTemaEspecificoId, handleClean: handleCleanSimulacoes } = useSimulacoes();
+
   const refreshMeuAprendizado = useToggle(true);
 
   const onSelectedSimulacao = (id: string, key: string) => {
@@ -27,18 +33,26 @@ const Simulations: React.FC = () => {
   useEffect(() => {
     // Força o recálculo da altura do viewport
     window.dispatchEvent(new Event('resize'));
-  }, [selectedConcursoId]); // Executa apenas uma vez quando o componente é montado
+  }, [selectedTemaEspecificoId]); // Executa apenas uma vez quando o componente é montado
 
 
   const onSelectedConcurso = async (_id: string, key: string) => {
     console.log('onSelectedConcurso, ', _id, key);
     handleMenuClick({ key });
-    handleClean();
+    handleCleanTemasEspecificos();
+    handleCleanSimulacoes();
     refreshMeuAprendizado.toggle();
     await new Promise((resolve) => setTimeout(resolve, 1500));
     refreshMeuAprendizado.toggle();
   };
 
+
+  const onSelectedTemaEspecifco = async (_id: string, key: string) => {
+    handleMenuClick({ key });
+    handleCleanSimulacoes();
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+  };
 
 
   return (
@@ -55,8 +69,12 @@ const Simulations: React.FC = () => {
           <div id="concursos">
             <ConcursoList onSelected={onSelectedConcurso} userId={userId} />
           </div>
+
+          <div id="temasEspecificos">
+            <TemasEspecificosList concursoId={selectedConcursoId} userId={userId} onSelected={onSelectedTemaEspecifco} />
+          </div>
           <div id="simulacoes">
-            <SimulacoesList concursoId={selectedConcursoId} userId={userId} onSelected={onSelectedSimulacao} />
+            <SimulacoesList temaEspecificoId={selectedTemaEspecificoId} userId={userId} onSelected={onSelectedSimulacao} />
           </div>
         </main>
       </motion.section>

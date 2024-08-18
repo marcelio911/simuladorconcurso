@@ -39,7 +39,7 @@ const concursosSlice = createSlice({
 
 export const { setConcursos, selectConcursoId, setError } = concursosSlice.actions;
 
-const load = ({ useCache = true }): AppThunk => async (dispatch, getState) => {
+const load = ({ useCache = false }): AppThunk => async (dispatch, getState) => {
   const { concursos } = getState();
   const { concursos: cachedConcursos } = concursos;
 

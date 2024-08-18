@@ -9,24 +9,24 @@ export type SimulacaoDto = {
   _id?: string;
   name?: string;
   data?: Date;
-  concursoId: string;
+  temaEspecificoId: string;
   userId: string;
   questoes?: string[];
 };
 interface SimulacoesProps {
-  concursoId: string | null;
+  temaEspecificoId: string | null;
   userId: string;
   onSelected: (simulacao: string, type: string) => void;
 }
 
 
 const SimulacoesList: React.FC<SimulacoesProps> = ({
-  concursoId,
+  temaEspecificoId,
   userId,
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [selectedSimulacoes, setSelectedSimulacoes] = useState<any | null>(null);
-  const { simulacoes, errorSimulados, _loadSimulacoesByConcursoId } = useSimulacoes();
+  const { simulacoes, errorSimulados, _loadSimulacoesByTemaEspecificoId } = useSimulacoes();
 
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
     setShowForm(false);
     setSelectedSimulacoes(null);
     // Recarregar simulacoes
-    _loadSimulacoesByConcursoId();
+    _loadSimulacoesByTemaEspecificoId();
   };
 
   const handleCancel = () => {
@@ -99,10 +99,10 @@ const SimulacoesList: React.FC<SimulacoesProps> = ({
         footer={null}
         onCancel={handleCancel}
       >
-        {concursoId &&
+        {temaEspecificoId &&
           <SimulacoesForm
             contest={selectedSimulacoes}
-            concursoId={concursoId}
+            temaEspecificoId={temaEspecificoId}
             userId={userId}
             onSave={handleAfterSaved} onCancel={handleCancel} />
         }

@@ -7,8 +7,8 @@ export const getSimulacoes = async () => {
   return response.data;
 };
 
-export const fetchSimulacoesByConcursoId = async (concursoId: string, userId: string) => {
-  const response = await axios.get(`${API_BASE_URL}/simulacoes/concurso/${concursoId}/user/${userId}`);
+export const fetchSimulacoesByTemaEspecificoId = async (temaEspecificoId: string, userId: string) => {
+  const response = await axios.get(`${API_BASE_URL}/simulacoes/temaEspecifico/${temaEspecificoId}/user/${userId}`);
   return response.data;
 };
 

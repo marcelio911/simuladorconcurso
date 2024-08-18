@@ -53,7 +53,7 @@ const useQuestions = () => {
       if (simulacao) {
         updateQuestionCorrectAnswer(question,
           simulacao.userId,
-          simulacao.concursoId,
+          simulacao.temaEspecificoId,
           simulacao._id,
           simulacao.name!
         );
@@ -69,7 +69,7 @@ const useQuestions = () => {
       if (simulacao) {
         updateStatisticsQuestionInCorrectAnswer(question,
           simulacao.userId,
-          simulacao.concursoId,
+          simulacao.temaEspecificoId,
           simulacao._id,
           simulacao.name!
         );

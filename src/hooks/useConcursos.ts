@@ -3,7 +3,7 @@ import { ConcursoDto } from '@/pages/ConcursoList';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as ActionsConcurso from '@/store/slices/concursosSlice';
-import * as ActionsSimulado from '@/store/slices/simulacoesSlice';
+import * as ActionsTemaEspecifico from '@/store/slices/temaEspecificoSlice';
 import { RootState } from '@/store';
 
 const useConcursos = () => {
@@ -33,7 +33,7 @@ const useConcursos = () => {
 
   const handleSelected = async ({ concurso, userId }: any, callback: (concurso: ConcursoDto) => void) => {
     dispatch(ActionsConcurso.selectConcursoId(concurso._id));
-    dispatch(ActionsSimulado.handleSimulacoes({ useCache: true, idConcurso: concurso._id, userId }));
+    dispatch(ActionsTemaEspecifico.handleTemasEspecificos({ useCache: true, idConcurso: concurso._id, userId }));
     callback(concurso);
   };
 

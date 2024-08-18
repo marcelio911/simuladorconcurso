@@ -187,6 +187,12 @@ body {
   animation: estrelas 5s linear 1s infinite;
 }
 
+.noite .bg-painel h2 {
+  color:#e6b344;
+} .noite #questionText {
+  color: #fbfbfb;
+}
+
 #help {
   position: absolute;
   top: 15%;

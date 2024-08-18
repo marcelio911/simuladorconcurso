@@ -13,11 +13,6 @@ def generateUserId():
 def generateConcursoId():
     return {"$oid": str(concursoId)}
 
-def getSimulacaoId(simulacaoOldId):
-    with open('simulacoes.json', 'r') as file:
-    simulacoes = json.load(file)
-
-
 def generateSimulacaoName(simulacaoId):
     # consult API https://localhost:3000/simulacoes/{simulacaoId}
     try :
@@ -30,7 +25,7 @@ def generateSimulacaoName(simulacaoId):
         return "Simulação não encontrada"
 
 # Carregar o JSON original
-with open('studies-simulator.questions.json', 'r') as file:
+with open('simulacoes.json', 'r') as file:
     collection_data = json.load(file)
 
 new_collection_data = []
@@ -39,14 +34,21 @@ for item in collection_data:
     new_item = {}
     new_item["userId"] = generateUserId()
     new_item["concursoId"] = generateConcursoId()
-    new_item["simulacaoId"] = item["simulacaoId"]
+    new_item["questionsId"] = []
+    new_item["name"] = item['name']
+    new_item["oldid"] = item['oldid']
+    new_item["startTime"] = item['startTime']
+    new_item["endTime"] = item['endTime']
     # new_item["simulacaoName"] = generateSimulacaoName(item["simulacaoId"]['$oid'])
-    new_item["question"] = item.copy()
-    new_item["dateTime"] = datetime.datetime.now().timestamp() * 1000
+    new_item["questionTimes"] = {}
+    new_item["questionDifficulties"] = {}
+    new_item["questionResults"] = {}
+    new_item["correctAnswers"] = 0
+    new_item["totalAnswers"] = 0
     new_collection_data.append(new_item)
 
 # Salvar o JSON modificado
-with open('studies-simulator.questions_update.json', 'w') as file:
+with open('simulacoes_update.json', 'w') as file:
     json.dump(new_collection_data, file, ensure_ascii=False, indent=2)
 
 print("Campos substituídos com sucesso!")

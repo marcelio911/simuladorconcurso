@@ -5,19 +5,19 @@ import LoadingButton from './Button';
 
 interface SimulacoesFormProps {
   contest?: any;
-  concursoId?: string;
+  temaEspecificoId?: string;
   userId?: string;
   onSave: () => void;
   onCancel: () => void;
 }
 
-const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, userId, onSave, onCancel }) => {
+const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, temaEspecificoId, userId, onSave, onCancel }) => {
   const [name, setName] = useState(contest?.name || '');
   const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newContest = { name, concursoId, userId };
+    const newContest = { name, temaEspecificoId, userId };
 
     if (contest) {
       console.log('updateSimulacoes', file, contest);
@@ -48,7 +48,7 @@ const SimulacoesForm: React.FC<SimulacoesFormProps> = ({ contest, concursoId, us
   return (
     <form className="form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <input type="hidden" placeholder="ID Simulacao" value={contest?._id} />
-      <input type="hidden" placeholder="ID do concurso" value={concursoId} />
+      <input type="hidden" placeholder="ID do temaEspecifico" value={temaEspecificoId} />
       <input type="hidden" placeholder="ID do usuario" value={userId} />
       <label htmlFor="nome" >Caderno de provas em PDF **</label>
 

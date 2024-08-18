@@ -7,11 +7,11 @@ import * as ActionsSimulado from '@/store/slices/simulacoesSlice';
 const useSimulacoes = () => {
   const { userId } = useParams();
   const dispatch = useDispatch();
-  const { simulacoes, selectedSimulacao, selectedConcursoId, error: errorSimulados } = useSelector((state: RootState) => state.simulacoes);
+  const { simulacoes, selectedSimulacao, selectedTemaEspecificoId, error: errorSimulados } = useSelector((state: RootState) => state.simulacoes);
 
-  const _loadSimulacoesByConcursoId = async () => {
-    if (selectedConcursoId && userId) {
-      dispatch(ActionsSimulado.handleSimulacoes({ useCache: false, idConcurso: selectedConcursoId, userId }));
+  const _loadSimulacoesByTemaEspecificoId = async () => {
+    if (selectedTemaEspecificoId && userId) {
+      dispatch(ActionsSimulado.handleSimulacoes({ useCache: false, idTemaEspecifico: selectedTemaEspecificoId, userId }));
     }
   }
 
@@ -30,10 +30,10 @@ const useSimulacoes = () => {
 
   return {
     insertSimulacao,
-    _loadSimulacoesByConcursoId,
+    _loadSimulacoesByTemaEspecificoId,
     getsimulacoesById,
     handleClean,
-    userId, selectedSimulacao, simulacoes, selectedConcursoId, errorSimulados
+    userId, selectedSimulacao, simulacoes, selectedTemaEspecificoId, errorSimulados
   };
 };
 

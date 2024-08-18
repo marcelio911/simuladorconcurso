@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '@/store';
 import { startLoading, stopLoading } from './loadingSlice';
-import { createSimulacoes, fetchSimulacoesByConcursoId, fetchSimulacoesById } from '@/services/simulacoes';
+import { createSimulacoes, fetchSimulacoesByTemaEspecificoId, fetchSimulacoesById } from '@/services/simulacoes';
 import { SimulacaoDto } from '@/pages/SimulacoesList';
 
 interface Simulacao extends SimulacaoDto {
@@ -10,14 +10,14 @@ interface Simulacao extends SimulacaoDto {
 
 interface SimulacoesState {
   simulacoes: Simulacao[] | null;
-  selectedConcursoId: string | null;
+  selectedTemaEspecificoId: string | null;
   selectedSimulacao: Simulacao | null;
   error: string | null;
 }
 
 const initialState: SimulacoesState = {
   simulacoes: null,
-  selectedConcursoId: null,
+  selectedTemaEspecificoId: null,
   selectedSimulacao: null,
   error: null,
 };
@@ -30,8 +30,8 @@ const simulacoesSlice = createSlice({
       state.simulacoes = action.payload;
       state.error = null;
     },
-    setSelectedConcursoId(state, action: PayloadAction<string>) {
-      state.selectedConcursoId = action.payload;
+    setSelectedTemaEspecificoId(state, action: PayloadAction<string>) {
+      state.selectedTemaEspecificoId = action.payload;
     },
     setSelectedSimulacao(state, action: PayloadAction<Simulacao>) {
       state.selectedSimulacao = action.payload;
@@ -42,30 +42,30 @@ const simulacoesSlice = createSlice({
     },
     clean(state) {
       state.simulacoes = null;
-      state.selectedConcursoId = null;
+      state.selectedTemaEspecificoId = null;
       state.selectedSimulacao = null;
       state.error = null;
     }
   },
 });
 
-export const { clean, setSimulacoes, setSelectedSimulacao, setError, setSelectedConcursoId } = simulacoesSlice.actions;
+export const { clean, setSimulacoes, setSelectedSimulacao, setError, setSelectedTemaEspecificoId } = simulacoesSlice.actions;
 
 const handleSimulacoes = ({
-  useCache = true,
-  idConcurso,
+  useCache = false,
+  idTemaEspecifico,
   userId,
 }: {
   useCache?: boolean;
-  idConcurso: string;
+  idTemaEspecifico: string;
   userId: string;
 }): AppThunk => async (dispatch, getState) => {
   try {
     const { simulacoes } = getState();
-    const { simulacoes: cacheSimulacoesByConcurso } = simulacoes;
-    dispatch(setSelectedConcursoId(idConcurso));
+    const { simulacoes: cacheSimulacoesByTemaEspecifico } = simulacoes;
+    dispatch(setSelectedTemaEspecificoId(idTemaEspecifico));
     dispatch(startLoading());
-    const data = useCache && !!cacheSimulacoesByConcurso ? cacheSimulacoesByConcurso : await fetchSimulacoesByConcursoId(idConcurso, userId);
+    const data = useCache && !!cacheSimulacoesByTemaEspecifico ? cacheSimulacoesByTemaEspecifico : await fetchSimulacoesByTemaEspecificoId(idTemaEspecifico, userId);
     dispatch(setSimulacoes(data));
   } catch (err) {
     dispatch(setError('Falha na busca por Simulados deste concurso'));
@@ -98,7 +98,7 @@ const handleInsertSimulacao = ({
     dispatch(startLoading());
     const simulacaoDto = { userId, concursoId };
     await createSimulacoes(simulacaoDto);
-    dispatch(handleSimulacoes({ useCache: false, idConcurso: concursoId, userId }));
+    dispatch(handleSimulacoes({ useCache: false, idTemaEspecifico: concursoId, userId }));
   } catch (err) {
     dispatch(setError('Failed to insert simulacao'));
   } finally {
